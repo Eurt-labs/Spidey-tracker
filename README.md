@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/spidey_banner.svg" width="100%" alt="Spidey Tracker Banner"/>
+  <img src="assets/spidey_hero.svg" width="100%" alt="Spidey Tracker Banner"/>
 </p>
 
 <p align="center">
