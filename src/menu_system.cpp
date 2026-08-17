@@ -149,12 +149,13 @@ AppState menuUpdate(Adafruit_ST7735 &tft, ButtonState &btn) {
         ledcWrite(LED_GREEN_CH, 0);
 
         switch (selectedIdx) {
-            case 0: return STATE_MOTION_TRACKER;
-            case 1: return STATE_CRASH_DETECTOR;
-            case 2: return STATE_SPIDER_SENSE;
-            case 3: return STATE_MARVEL_TRACKER;
-            case 4: return STATE_WEB_SHOOTER;
-            case 5: return STATE_STATS;
+            case 0: return STATE_SPIDEY_TRACER;
+            case 1: return STATE_MOTION_TRACKER;
+            case 2: return STATE_CRASH_DETECTOR;
+            case 3: return STATE_SPIDER_SENSE;
+            case 4: return STATE_MARVEL_TRACKER;
+            case 5: return STATE_WEB_SHOOTER;
+            case 6: return STATE_STATS;
             default: return STATE_MENU;
         }
     }

@@ -18,6 +18,7 @@
 #include "config.h"
 #include "boot_animation.h"
 #include "menu_system.h"
+#include "spidey_tracer.h"
 #include "motion_tracker.h"
 #include "crash_detector.h"
 #include "spider_sense.h"
@@ -282,6 +283,9 @@ static void enterState(AppState newState) {
         case STATE_MENU:
             menuInit();
             break;
+        case STATE_SPIDEY_TRACER:
+            spideyTracerInit(tft);
+            break;
         case STATE_MOTION_TRACKER:
             motionTrackerInit(tft);
             break;
@@ -372,6 +376,12 @@ void loop() {
             if (result != STATE_MENU) {
                 enterState(result);
             }
+            break;
+        }
+
+        case STATE_SPIDEY_TRACER: {
+            bool stay = spideyTracerUpdate(tft, imuData, buttons);
+            if (!stay) enterState(STATE_MENU);
             break;
         }
 
