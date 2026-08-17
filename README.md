@@ -20,7 +20,9 @@ An advanced, mature **Spidey Tracker & Tactical Multi-Tracker** built for the **
   3. *Tactical Mask HUD* with dynamic iris aperture calibration, focus lock reticles, and LED strobe synchronization.
   4. *Holographic Matrix Warp* transition into the tactical main menu.
 - **📶 Real-Time WiFi NTP Sync**: Connects to WiFi (`Airtel_Dhruv`) to fetch accurate global atomic time from NTP pool servers (`pool.ntp.org`, `time.google.com` with UTC+5:30 IST offset).
-- **🎬 Accurate Marvel Movie Release Tracker**: Real-world release dates for upcoming Marvel movies (Spider-Man: Brand New Day, Avengers: Doomsday, Avengers: Secret Wars, Fantastic Four: First Steps, Spider-Verse, Blade) with live real-time ticking countdowns.
+- **🎬 Official Marvel Timeline & Release Tracker**:
+  - *Upcoming Releases*: Live countdown (`DAYS LEFT` + `HH:MM:SS`) to premiere.
+  - *Released Milestones*: Live elapsed time (`+DAYS AGO` + `+HH:MM:SS`) since premiere date.
 - **📱 6 Interactive Tactical Modes** in high-contrast Spider-Man aesthetics (Neon Red, Cyan, Gold, Crimson).
 - **🕹️ 128×160 Vertical / Portrait Orientation**: Optimized layouts, typography, and vector graphics designed specifically for 1.8" TFT screens.
 - **⚡ Ultra-Efficient Hardware Rendering**: Direct register-level MPU6050 communication, debounced button handling with long-press detection, and PWM-dimmed status LEDs.
@@ -41,8 +43,8 @@ An advanced, mature **Spidey Tracker & Tactical Multi-Tracker** built for the **
 │        │                 │ trigger) & 4-event impact log │
 │   03   │ SPIDER-SENSE    │ Dynamic mask eye iris threat  │
 │        │                 │ perception engine with alerts │
-│   04   │ MARVEL CINEMA   │ Real-world movie countdowns   │
-│        │                 │ synced via WiFi NTP clock     │
+│   04   │ MARVEL CINEMA   │ Official MCU countdowns &     │
+│        │                 │ elapsed days since release    │
 │   05   │ WEB TARGETING   │ Tilt-aimed laser shooter game │
 │        │                 │ with combo multiplier & score │
 │   06   │ S.H.I.E.L.D.    │ Live telemetry, IMU chip ID,  │
@@ -68,15 +70,14 @@ An advanced, mature **Spidey Tracker & Tactical Multi-Tracker** built for the **
 - On trigger: Eyes dilate wide with `! THREAT ALERT !` banner and alternating LED strobe patterns.
 - Adjustable sensitivity slider via UP/DOWN navigation buttons.
 
-### 4. 🎬 Marvel Cinema Tracker (NTP-Synced)
-- Exact release date countdowns synced with real-world atomic clocks over WiFi:
-  - **Spider-Man: Brand New Day** (24 Jul 2026)
-  - **Avengers: Doomsday** (01 May 2026)
-  - **Avengers: Secret Wars** (07 May 2027)
-  - **Fantastic Four: First Steps** (25 Jul 2025)
-  - **Spider-Man: Beyond the Spider-Verse** (26 Mar 2027)
-  - **Blade: The Daywalker** (06 Nov 2026)
-- Large prominent `DAYS` countdown and live ticking `HH : MM : SS` digital clock.
+### 4. 🎬 Marvel Cinema Tracker (NTP-Synced & Dual-Mode)
+- Exact release dates synced with real-world atomic clocks over WiFi:
+  - **Spider-Man: Brand New Day** (24 Jul 2026) — *Upcoming Countdown*
+  - **Avengers: Doomsday** (18 Dec 2026) — *Upcoming Countdown*
+  - **Avengers: Secret Wars** (17 Dec 2027) — *Upcoming Countdown*
+  - **Spider-Man: Beyond the Spider-Verse** (25 Jun 2027) — *Upcoming Countdown*
+  - **The Fantastic Four: First Steps** (25 Jul 2025) — *Elapsed Days Since Release (`+DAYS AGO`)*
+  - **Spider-Man: No Way Home** (17 Dec 2021) — *Elapsed Days Since Release (`+DAYS AGO`)*
 
 ### 5. 🎮 Web Targeting Mini-Game
 - Full portrait tactical arena with dynamic spider drone targets.
