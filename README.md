@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <a href="https://www.espressif.com/en/products/socs/esp32"><img src="https://img.shields.io/badge/ESP32-DevKit%20V1-red?style=for-the-badge&logo=espressif&logoColor=white" alt="ESP32"/></a>
+  <a href="https://www.espressif.com/en/products/socs/esp32"><img src="https://img.shields.io/badge/Espressif%2032%20Dev%20Kit-V1-red?style=for-the-badge&logo=espressif&logoColor=white" alt="Espressif 32 Dev Kit"/></a>
   <a href="https://platformio.org/"><img src="https://img.shields.io/badge/PlatformIO-Firmware-orange?style=for-the-badge&logo=platformio&logoColor=white" alt="PlatformIO"/></a>
   <a href="https://www.arduino.cc/"><img src="https://img.shields.io/badge/Framework-Arduino-blue?style=for-the-badge&logo=arduino&logoColor=white" alt="Arduino"/></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-gold?style=for-the-badge" alt="MIT License"/></a>
@@ -30,7 +30,7 @@
 git clone https://github.com/Eurt-labs/Spidey-tracker.git
 cd Spidey-tracker
 
-# 2. Flash to your ESP32 in one command
+# 2. Flash to your Espressif 32 Dev Kit in one command
 pio run -t upload
 
 # 3. Optional: Open serial monitor @ 115200 baud
