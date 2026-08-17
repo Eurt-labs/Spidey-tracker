@@ -11,6 +11,16 @@
 #include <Arduino.h>
 
 // ================================================================
+//  WIFI & NTP CONFIGURATION (FOR REAL-TIME MOVIE COUNTDOWN)
+// ================================================================
+#define WIFI_SSID         "Airtel_Dhruv"
+#define WIFI_PASS         "space1524"
+#define NTP_SERVER_1      "pool.ntp.org"
+#define NTP_SERVER_2      "time.google.com"
+#define GMT_OFFSET_SEC    19800   // UTC +5:30 (India Standard Time)
+#define DAYLIGHT_OFFSET_SEC 0
+
+// ================================================================
 //  PIN DEFINITIONS (from HARDWARE_PINOUT.md)
 // ================================================================
 
@@ -145,6 +155,15 @@ struct ButtonState {
     unsigned long _selectStart;
     bool _longFired;
 };
+
+// System & Network Status
+struct SystemStatus {
+    bool wifiConnected;
+    bool timeSynced;
+    int wifiRSSI;
+};
+
+extern SystemStatus sysStatus;
 
 // ================================================================
 //  MENU CONFIGURATION (PORTRAIT 128x160)

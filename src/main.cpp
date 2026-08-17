@@ -1,15 +1,17 @@
 /*
  * ================================================================
  *  🕷️ SPIDEY TRACKER — Main Entry Point (Portrait 128x160)
- *  ESP32 + ST7735 TFT + MPU6050 IMU + LEDs + Buttons
+ *  ESP32 + ST7735 TFT + MPU6050 IMU + WiFi / NTP + LEDs + Buttons
  *
- *  Advanced Spider-Man Themed Tactical OS & Tracker System
+ *  Spidey Tracker Tactical OS & Real-Time Movie Countdown
  * ================================================================
  */
 
 #include <Arduino.h>
 #include <SPI.h>
 #include <Wire.h>
+#include <WiFi.h>
+#include <time.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_ST7735.h>
 
@@ -38,8 +40,61 @@ AppState previousState = STATE_BOOT;
 IMUData imuData = {0};
 ButtonState buttons = {0};
 
+// System & Network status
+SystemStatus sysStatus = {false, false, 0};
+
 // Frame timing
 unsigned long frameStartMs = 0;
+unsigned long lastNetCheckMs = 0;
+
+// ================================================================
+//  WIFI & NTP NETWORK MANAGEMENT
+// ================================================================
+
+static void networkInit() {
+    Serial.println("[WIFI] Connecting to " WIFI_SSID "...");
+    WiFi.mode(WIFI_STA);
+    WiFi.begin(WIFI_SSID, WIFI_PASS);
+
+    // Initialize NTP time synchronization
+    configTime(GMT_OFFSET_SEC, DAYLIGHT_OFFSET_SEC, NTP_SERVER_1, NTP_SERVER_2);
+    Serial.println("[NTP] Configured NTP servers with UTC+5:30 offset");
+}
+
+static void networkUpdate() {
+    // Check network status every 2 seconds
+    if (millis() - lastNetCheckMs < 2000) return;
+    lastNetCheckMs = millis();
+
+    if (WiFi.status() == WL_CONNECTED) {
+        if (!sysStatus.wifiConnected) {
+            sysStatus.wifiConnected = true;
+            sysStatus.wifiRSSI = WiFi.RSSI();
+            Serial.print("[WIFI] Connected! IP: ");
+            Serial.println(WiFi.localIP());
+        }
+
+        // Check if real time has been acquired via NTP
+        time_t now = time(nullptr);
+        if (now > 1000000) {
+            if (!sysStatus.timeSynced) {
+                sysStatus.timeSynced = true;
+                struct tm timeinfo;
+                gmtime_r(&now, &timeinfo);
+                Serial.printf("[NTP] Time Synced: %04d-%02d-%02d %02d:%02d:%02d UTC\n",
+                              timeinfo.tm_year + 1900, timeinfo.tm_mon + 1, timeinfo.tm_mday,
+                              timeinfo.tm_hour, timeinfo.tm_min, timeinfo.tm_sec);
+            }
+        }
+    } else {
+        if (sysStatus.wifiConnected) {
+            sysStatus.wifiConnected = false;
+            Serial.println("[WIFI] Disconnected! Reconnecting in background...");
+        }
+        // Attempt background reconnect
+        WiFi.begin(WIFI_SSID, WIFI_PASS);
+    }
+}
 
 // ================================================================
 //  IMU (MPU6050/6500) FUNCTIONS
@@ -47,7 +102,7 @@ unsigned long frameStartMs = 0;
 
 static uint8_t imuReadWhoAmI() {
     Wire.beginTransmission(IMU_ADDR);
-    Wire.write(0x75);  // WHO_AM_I register
+    Wire.write(0x75);
     Wire.endTransmission(false);
     Wire.requestFrom((uint8_t)IMU_ADDR, (uint8_t)1, (uint8_t)true);
     if (Wire.available()) {
@@ -58,9 +113,9 @@ static uint8_t imuReadWhoAmI() {
 
 static bool imuInit() {
     Wire.begin(IMU_SDA, IMU_SCL);
-    Wire.setClock(100000);  // 100kHz I2C
+    Wire.setClock(100000);
 
-    delay(50);  // Let IMU power up
+    delay(50);
 
     imuData.chipID = imuReadWhoAmI();
     Serial.print("[IMU] WHO_AM_I: 0x");
@@ -70,34 +125,29 @@ static bool imuInit() {
         Serial.println("[IMU] WARNING: Unexpected chip ID!");
     }
 
-    // Wake up MPU (clear SLEEP bit in PWR_MGMT_1)
     Wire.beginTransmission(IMU_ADDR);
-    Wire.write(0x6B);  // PWR_MGMT_1
+    Wire.write(0x6B);
     Wire.write(0x00);
     Wire.endTransmission(true);
     delay(10);
 
-    // Set accelerometer range to ±4g
     Wire.beginTransmission(IMU_ADDR);
-    Wire.write(0x1C);  // ACCEL_CONFIG
-    Wire.write(0x08);  // AFS_SEL = 1 (±4g)
+    Wire.write(0x1C);
+    Wire.write(0x08);
     Wire.endTransmission(true);
 
-    // Set gyroscope range to ±500°/s
     Wire.beginTransmission(IMU_ADDR);
-    Wire.write(0x1B);  // GYRO_CONFIG
-    Wire.write(0x08);  // FS_SEL = 1 (±500°/s)
+    Wire.write(0x1B);
+    Wire.write(0x08);
     Wire.endTransmission(true);
 
-    // Set DLPF for noise filtering (bandwidth ~44Hz)
     Wire.beginTransmission(IMU_ADDR);
-    Wire.write(0x1A);  // CONFIG
-    Wire.write(0x03);  // DLPF_CFG = 3
+    Wire.write(0x1A);
+    Wire.write(0x03);
     Wire.endTransmission(true);
 
-    // Set sample rate divider (100Hz)
     Wire.beginTransmission(IMU_ADDR);
-    Wire.write(0x19);  // SMPLRT_DIV
+    Wire.write(0x19);
     Wire.write(0x09);
     Wire.endTransmission(true);
 
@@ -108,7 +158,7 @@ static bool imuInit() {
 
 static void imuRead() {
     Wire.beginTransmission(IMU_ADDR);
-    Wire.write(0x3B);  // Starting register: ACCEL_XOUT_H
+    Wire.write(0x3B);
     Wire.endTransmission(false);
     Wire.requestFrom((uint8_t)IMU_ADDR, (uint8_t)14, (uint8_t)true);
 
@@ -263,7 +313,7 @@ void setup() {
     delay(100);
     Serial.println();
     Serial.println("========================================");
-    Serial.println(" 🕷️ SPIDEY TRACKER TACTICAL OS v4.2");
+    Serial.println(" 🕷️ SPIDEY TRACKER v4.2");
     Serial.println(" ESP32 DevKit V1 + ST7735 (128x160 Portrait)");
     Serial.println("========================================");
 
@@ -276,7 +326,7 @@ void setup() {
 
     // Initialize TFT Display in Vertical / Portrait mode (128 x 160)
     tft.initR(INITR_BLACKTAB);
-    tft.setRotation(TFT_ROTATION); // 0 = Vertical / Portrait
+    tft.setRotation(TFT_ROTATION);
     tft.fillScreen(SPIDEY_BLACK);
     Serial.println("[TFT] Display initialized (128x160 Portrait)");
 
@@ -286,6 +336,9 @@ void setup() {
     }
 
     randomSeed(analogRead(36) ^ micros());
+
+    // Connect WiFi & start NTP time synchronization in background
+    networkInit();
 
     Serial.println("[BOOT] Launching cinematic boot sequence...");
     currentState = STATE_BOOT;
@@ -301,12 +354,18 @@ void setup() {
 void loop() {
     frameStartMs = millis();
 
+    // Update Network (WiFi & NTP Sync)
+    networkUpdate();
+
+    // Read Inputs
     readButtons();
 
+    // Read IMU
     if (imuData.valid || imuData.chipID != 0x00) {
         imuRead();
     }
 
+    // State Machine
     switch (currentState) {
         case STATE_MENU: {
             AppState result = menuUpdate(tft, buttons);
