@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/spidey_hero_master_v4.svg" width="100%" alt="Spidey Tracker Master Banner"/>
+  <img src="assets/spidey_hero.svg" width="100%" alt="Spidey Tracker Master Banner"/>
 </p>
 
 <p align="center">
@@ -12,13 +12,13 @@
 ---
 
 <p align="center">
-  <img src="assets/spidey_modes_gallery.svg" width="100%" alt="Tactical Modes Interactive Showcase"/>
+  <img src="assets/spidey_modes.svg" width="100%" alt="Tactical Modes Interactive Showcase"/>
 </p>
 
 ---
 
 <p align="center">
-  <img src="assets/spidey_hardware_blueprint.svg" width="100%" alt="Hardware Schematic &amp; Blueprint"/>
+  <img src="assets/spidey_schematic.svg" width="100%" alt="Hardware Schematic &amp; Blueprint"/>
 </p>
 
 ---
