@@ -20,7 +20,7 @@ static void drawTacticalEye(Adafruit_ST7735 &tft, int cx, int cy, float openness
 //  MAIN BOOT ANIMATION ENTRY POINT
 // ================================================================
 void runBootAnimation(Adafruit_ST7735 &tft) {
-    // Phase 1: Quantum Neural Web & Cyber Grid Initialization (~1.2s)
+    // Phase 1: Tactical Cyber Web & Grid Initialization (~1.2s)
     drawCyberWebMatrix(tft);
 
     // Phase 2: Tactical Spider Crest Laser Synthesis (~1.6s)
@@ -34,7 +34,7 @@ void runBootAnimation(Adafruit_ST7735 &tft) {
 }
 
 // ================================================================
-//  PHASE 1: QUANTUM NEURAL WEB & CYBER GRID INITIALIZATION
+//  PHASE 1: TACTICAL CYBER WEB & GRID INITIALIZATION
 // ================================================================
 static void drawCyberWebMatrix(Adafruit_ST7735 &tft) {
     tft.fillScreen(SPIDEY_BLACK);
@@ -55,8 +55,8 @@ static void drawCyberWebMatrix(Adafruit_ST7735 &tft) {
     // Header telemetry
     tft.setTextColor(SPIDEY_CYAN);
     tft.setTextSize(1);
-    tft.setCursor(18, 5);
-    tft.print("NEURAL LINK 4.2");
+    tft.setCursor(24, 5);
+    tft.print("SPIDER-OS 4.2");
 
     // Breathing LED pulse
     ledcWrite(LED_BLUE_CH, 40);
