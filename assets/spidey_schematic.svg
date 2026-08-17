@@ -1,0 +1,219 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 950 420" width="100%" height="100%">
+  <defs>
+    <!-- Dark Blueprint Gradient -->
+    <linearGradient id="blueBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#040814"/>
+      <stop offset="50%" stop-color="#08020D"/>
+      <stop offset="100%" stop-color="#140209"/>
+    </linearGradient>
+
+    <!-- Header Gradient -->
+    <linearGradient id="schemHead" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00A3FF"/>
+      <stop offset="50%" stop-color="#FF1E38"/>
+      <stop offset="100%" stop-color="#FFC107"/>
+    </linearGradient>
+
+    <pattern id="schemGrid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#00F0FF" stroke-width="0.5" stroke-opacity="0.08"/>
+    </pattern>
+
+    <filter id="traceGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="b1"/>
+      <feMerge>
+        <feMergeNode in="b1"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <style>
+    @keyframes dataFlow {
+      0% { stroke-dashoffset: 80; }
+      100% { stroke-dashoffset: 0; }
+    }
+    @keyframes ledBlinkBlue {
+      0%, 100% { fill: #00F0FF; filter: drop-shadow(0 0 8px #00F0FF); }
+      50% { fill: #004466; filter: none; }
+    }
+    @keyframes ledBlinkGreen {
+      0%, 100% { fill: #004422; filter: none; }
+      50% { fill: #00FF66; filter: drop-shadow(0 0 8px #00FF66); }
+    }
+    @keyframes ledBlinkRed {
+      0%, 40%, 60%, 100% { fill: #440008; filter: none; }
+      50% { fill: #FF1E38; filter: drop-shadow(0 0 10px #FF1E38); }
+    }
+
+    .spi-trace { stroke-dasharray: 8 4; animation: dataFlow 1.2s linear infinite; }
+    .i2c-trace { stroke-dasharray: 8 4; animation: dataFlow 1.8s linear infinite; }
+    .btn-trace { stroke-dasharray: 6 3; animation: dataFlow 2.2s linear infinite; }
+
+    .led-blue-node  { animation: ledBlinkBlue 1.6s ease-in-out infinite; }
+    .led-green-node { animation: ledBlinkGreen 2.1s ease-in-out infinite; }
+    .led-red-node   { animation: ledBlinkRed 3.0s ease-in-out infinite; }
+
+    .chip-title {
+      font-family: 'Segoe UI', monospace;
+      font-weight: 900;
+      letter-spacing: 1px;
+    }
+  </style>
+
+  <!-- Background Base -->
+  <rect width="950" height="420" rx="16" fill="url(#blueBg)" stroke="#1A0414" stroke-width="2"/>
+  <rect width="950" height="420" rx="16" fill="url(#schemGrid)"/>
+
+  <!-- Top Title -->
+  <g transform="translate(20, 20)">
+    <rect width="910" height="34" rx="6" fill="url(#schemHead)"/>
+    <text x="16" y="23" font-family="'Segoe UI', sans-serif" font-size="14" font-weight="900" fill="#FFFFFF" letter-spacing="3">
+      🛠️ HARDWARE SCHEMATIC // ZERO-COMPLICATION WIRING
+    </text>
+    <text x="735" y="22" font-family="monospace" font-size="11" font-weight="700" fill="#05010A">
+      3.3V / 5V DC RAIL // I2C + SPI
+    </text>
+  </g>
+
+  <!-- ============================================================== -->
+  <!-- CENTER: ESP32 DEVKIT V1 MAIN MCU CHIP                          -->
+  <!-- ============================================================== -->
+  <g transform="translate(370, 75)">
+    <!-- ESP32 Module Box -->
+    <rect width="210" height="240" rx="8" fill="#0C0412" stroke="#FF1E38" stroke-width="2"/>
+    <!-- Metal Shield -->
+    <rect x="25" y="20" width="160" height="120" rx="4" fill="#1C0A24" stroke="#FFE57F" stroke-width="1.2"/>
+    <text x="45" y="60" font-size="14" fill="#FFFFFF" class="chip-title">ESP-WROOM-32</text>
+    <text x="50" y="80" font-family="monospace" font-size="10" fill="#00F0FF">240MHz DUAL-CORE</text>
+    <text x="58" y="98" font-family="monospace" font-size="9" fill="#FFE57F">WiFi + BLE + 4MB</text>
+    <circle cx="105" cy="120" r="8" fill="#FF1E38" opacity="0.8"/>
+
+    <!-- ESP32 Pinout Left -->
+    <g font-family="monospace" font-size="9" fill="#A0C0E0">
+      <text x="8" y="160">D5 (CS)</text>
+      <text x="8" y="178">D4 (RST)</text>
+      <text x="8" y="196">D2 (DC)</text>
+      <text x="8" y="214">D23 (MOSI)</text>
+      <text x="8" y="232">D18 (SCK)</text>
+    </g>
+
+    <!-- ESP32 Pinout Right -->
+    <g font-family="monospace" font-size="9" fill="#FFE57F">
+      <text x="142" y="160">D21 (SDA)</text>
+      <text x="142" y="178">D22 (SCL)</text>
+      <text x="142" y="196">D12/14/27</text>
+      <text x="142" y="214">D25/26/33</text>
+      <text x="155" y="232">3.3V/GND</text>
+    </g>
+  </g>
+
+  <!-- ============================================================== -->
+  <!-- LEFT: ST7735 1.8" SPI TFT DISPLAY                              -->
+  <!-- ============================================================== -->
+  <g transform="translate(30, 85)">
+    <rect width="240" height="220" rx="8" fill="#050C18" stroke="#00F0FF" stroke-width="2"/>
+    <!-- Screen Bezel -->
+    <rect x="25" y="25" width="190" height="150" rx="4" fill="#02040A" stroke="#005077" stroke-width="1.5"/>
+    <!-- Screen View -->
+    <rect x="40" y="40" width="160" height="120" fill="#0D0108"/>
+    <!-- Simulated Spider HUD inside display -->
+    <circle cx="120" cy="100" r="35" fill="none" stroke="#FF1E38" stroke-width="1"/>
+    <circle cx="120" cy="100" r="20" fill="none" stroke="#FFE57F" stroke-width="0.8"/>
+    <line x1="85" y1="100" x2="155" y2="100" stroke="#280008"/>
+    <line x1="120" y1="65" x2="120" y2="135" stroke="#280008"/>
+    <text x="75" y="70" font-family="monospace" font-size="8" fill="#00F0FF">SPIDEY TRACKER</text>
+
+    <text x="45" y="200" font-size="12" fill="#00F0FF" class="chip-title">ST7735 1.8" SPI TFT (128x160)</text>
+  </g>
+
+  <!-- Animated SPI Data Bus Lines (Left Screen to Center ESP32) -->
+  <g stroke="#00F0FF" stroke-width="2" fill="none" class="spi-trace" filter="url(#traceGlow)">
+    <path d="M 270,160 L 370,160"/>
+    <path d="M 270,178 L 370,178"/>
+    <path d="M 270,196 L 370,196"/>
+    <path d="M 270,214 L 370,214"/>
+    <path d="M 270,232 L 370,232"/>
+  </g>
+
+  <!-- ============================================================== -->
+  <!-- RIGHT TOP: MPU6050 6-DOF MOTION SENSOR                         -->
+  <!-- ============================================================== -->
+  <g transform="translate(680, 75)">
+    <rect width="240" height="110" rx="8" fill="#02140A" stroke="#00FF66" stroke-width="2"/>
+    <rect x="20" y="20" width="70" height="70" rx="4" fill="#082A18" stroke="#00FF66" stroke-width="1.2"/>
+    <text x="32" y="55" font-family="monospace" font-size="10" font-weight="900" fill="#FFFFFF">MPU</text>
+    <text x="28" y="70" font-family="monospace" font-size="9" fill="#00FF66">6050/6500</text>
+
+    <g transform="translate(105, 30)" font-family="monospace" font-size="10" fill="#FFFFFF">
+      <text x="0" y="0" fill="#00FF66" font-weight="700">6-DOF GYRO + ACCEL</text>
+      <text x="0" y="18">• I2C ADDR: 0x68</text>
+      <text x="0" y="34">• SDA: GPIO 21</text>
+      <text x="0" y="50">• SCL: GPIO 22</text>
+      <text x="0" y="66" fill="#FFE57F">• VCC: VIN / 5V</text>
+    </g>
+  </g>
+
+  <!-- Animated I2C Lines (ESP32 to MPU6050) -->
+  <g stroke="#00FF66" stroke-width="2" fill="none" class="i2c-trace" filter="url(#traceGlow)">
+    <path d="M 580,160 L 630,160 L 630,110 L 680,110"/>
+    <path d="M 580,178 L 630,178 L 630,130 L 680,130"/>
+  </g>
+
+  <!-- ============================================================== -->
+  <!-- RIGHT BOTTOM: STATUS LEDS & NAVIGATION BUTTONS                 -->
+  <!-- ============================================================== -->
+  <g transform="translate(680, 205)">
+    <rect width="240" height="110" rx="8" fill="#140608" stroke="#FF1E38" stroke-width="2"/>
+    
+    <!-- 3 Glowing LEDs -->
+    <g transform="translate(20, 20)">
+      <circle cx="15" cy="18" r="10" class="led-blue-node"/>
+      <text x="8" y="42" font-family="monospace" font-size="8" fill="#00F0FF">D12</text>
+
+      <circle cx="50" cy="18" r="10" class="led-green-node"/>
+      <text x="43" y="42" font-family="monospace" font-size="8" fill="#00FF66">D14</text>
+
+      <circle cx="85" cy="18" r="10" class="led-red-node"/>
+      <text x="78" y="42" font-family="monospace" font-size="8" fill="#FF1E38">D27</text>
+    </g>
+
+    <!-- 3 Tactical Buttons -->
+    <g transform="translate(135, 20)">
+      <rect x="0" y="5" width="26" height="26" rx="4" fill="#200008" stroke="#FFE57F" stroke-width="1.2"/>
+      <text x="7" y="22" font-family="monospace" font-size="11" font-weight="900" fill="#FFE57F">▲</text>
+      <text x="4" y="42" font-family="monospace" font-size="8" fill="#A0B0C0">D25</text>
+
+      <rect x="34" y="5" width="26" height="26" rx="4" fill="#200008" stroke="#00F0FF" stroke-width="1.2"/>
+      <text x="41" y="22" font-family="monospace" font-size="11" font-weight="900" fill="#00F0FF">●</text>
+      <text x="38" y="42" font-family="monospace" font-size="8" fill="#A0B0C0">D26</text>
+
+      <rect x="68" y="5" width="26" height="26" rx="4" fill="#200008" stroke="#FFE57F" stroke-width="1.2"/>
+      <text x="75" y="22" font-family="monospace" font-size="11" font-weight="900" fill="#FFE57F">▼</text>
+      <text x="72" y="42" font-family="monospace" font-size="8" fill="#A0B0C0">D33</text>
+    </g>
+
+    <text x="20" y="96" font-family="monospace" font-size="9" fill="#FFE57F">INPUT_PULLUP // 50ms DEBOUNCE // PWM LEDS</text>
+  </g>
+
+  <!-- Animated LED & Button Traces -->
+  <g stroke="#FF1E38" stroke-width="2" fill="none" class="btn-trace" filter="url(#traceGlow)">
+    <path d="M 580,200 L 630,200 L 630,240 L 680,240"/>
+    <path d="M 580,214 L 630,214 L 630,265 L 680,265"/>
+  </g>
+
+  <!-- ============================================================== -->
+  <!-- BOTTOM STATUS BANNER                                           -->
+  <!-- ============================================================== -->
+  <g transform="translate(20, 335)">
+    <rect width="910" height="65" rx="8" fill="#07020E" stroke="#250520" stroke-width="1.2"/>
+    <text x="16" y="24" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="800" fill="#FFE57F">
+      ⚡ PLUG &amp; PLAY FLASHING WITH PLATFORMIO
+    </text>
+    <text x="16" y="46" font-family="monospace" font-size="12" fill="#00F0FF">
+      git clone https://github.com/Eurt-labs/Spidey-tracker.git &amp;&amp; cd Spidey-tracker &amp;&amp; pio run -t upload
+    </text>
+    <text x="740" y="46" font-family="monospace" font-size="11" font-weight="700" fill="#00FF66">
+      ✓ BUILD TIME &lt; 10s
+    </text>
+  </g>
+</svg>
