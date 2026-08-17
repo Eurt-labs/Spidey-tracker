@@ -1,164 +1,186 @@
-# 🕷️ Spidey Tracker — Tactical ESP32 Multi-Tracker
+<p align="center">
+  <img src="assets/spidey_banner.svg" width="100%" alt="Spidey Tracker Banner"/>
+</p>
 
-[![Platform](https://img.shields.io/badge/Platform-ESP32-red.svg)](https://www.espressif.com/en/products/socs/esp32)
-[![Framework](https://img.shields.io/badge/Framework-Arduino-blue.svg)](https://www.arduino.cc/)
-[![IDE](https://img.shields.io/badge/Build-PlatformIO-orange.svg)](https://platformio.org/)
-[![Display](https://img.shields.io/badge/Display-ST7735%201.8%22%20TFT-yellow.svg)](https://www.adafruit.com/)
-[![IMU](https://img.shields.io/badge/Sensor-MPU6050%20%2F%206500-green.svg)](https://invensense.tdk.com/)
-[![WiFi](https://img.shields.io/badge/WiFi%2FNTP-Auto--Sync-cyan.svg)](https://www.espressif.com/)
-[![License](https://img.shields.io/badge/License-MIT-blueviolet.svg)](LICENSE)
-
-An advanced, mature **Spidey Tracker & Tactical Multi-Tracker** built for the **ESP32 DevKit V1**, featuring a **128×160 Portrait ST7735 TFT**, **MPU6050 6-DOF IMU**, **WiFi NTP real-time clock synchronization**, **PWM status LEDs**, and a 3-button tactical navigation system.
-
----
-
-## 🌟 Key Highlights
-
-- **🎬 4-Phase Cinematic Boot Sequence**:
-  1. *Quantum Neural Web & Cyber Grid* with live telemetry logs.
-  2. *Tactical Spider Crest Laser Scan* with real-time frequency equalizer animation.
-  3. *Tactical Mask HUD* with dynamic iris aperture calibration, focus lock reticles, and LED strobe synchronization.
-  4. *Holographic Matrix Warp* transition into the tactical main menu.
-- **📶 Real-Time WiFi NTP Sync**: Connects to WiFi (`Airtel_Dhruv`) to fetch accurate global atomic time from NTP pool servers (`pool.ntp.org`, `time.google.com` with UTC+5:30 IST offset).
-- **🎬 Official Marvel Timeline & Release Tracker**:
-  - *Upcoming Releases*: Live countdown (`DAYS LEFT` + `HH:MM:SS`) to premiere.
-  - *Released Milestones*: Live elapsed time (`+DAYS AGO` + `+HH:MM:SS`) since premiere date.
-- **📱 6 Interactive Tactical Modes** in high-contrast Spider-Man aesthetics (Neon Red, Cyan, Gold, Crimson).
-- **🕹️ 128×160 Vertical / Portrait Orientation**: Optimized layouts, typography, and vector graphics designed specifically for 1.8" TFT screens.
-- **⚡ Ultra-Efficient Hardware Rendering**: Direct register-level MPU6050 communication, debounced button handling with long-press detection, and PWM-dimmed status LEDs.
+<p align="center">
+  <a href="https://www.espressif.com/en/products/socs/esp32"><img src="https://img.shields.io/badge/ESP32-DevKit%20V1-red?style=for-the-badge&logo=espressif&logoColor=white" alt="ESP32"/></a>
+  <a href="https://platformio.org/"><img src="https://img.shields.io/badge/PlatformIO-Firmware-orange?style=for-the-badge&logo=platformio&logoColor=white" alt="PlatformIO"/></a>
+  <a href="https://www.arduino.cc/"><img src="https://img.shields.io/badge/Framework-Arduino-blue?style=for-the-badge&logo=arduino&logoColor=white" alt="Arduino"/></a>
+  <a href="https://github.com/Eurt-labs/Spidey-tracker/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-gold?style=for-the-badge" alt="MIT License"/></a>
+</p>
 
 ---
 
-## 🎮 Features & Modes
+## 🕸️ Hey Everyone! Welcome to Spidey Tracker
+
+Ever watched Peter Parker stick a mini electronic **Spider-Tracer** on a villain's getaway car and track them across the NYC skyline on a handheld radar? 
+
+I wanted to bring that exact gadget to life on actual hardware.
+
+**Spidey Tracker** is a custom embedded OS and multi-sensor gadget built for the **ESP32**, a **1.8" ST7735 color TFT display**, and an **MPU6050 6-DOF IMU**. It comes packed with a cinematic boot animation straight out of Tony Stark's lab, 7 interactive tactical modes, real-time WiFi atomic clock synchronization, and a whole lot of friendly neighborhood attitude.
+
+---
+
+## ✨ What Can This Thing Do?
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│                   SPIDEY TRACKER                         │
-├────────┬─────────────────┬───────────────────────────────┤
-│ Mode # │ Name            │ Description                   │
-├────────┼─────────────────┼───────────────────────────────┤
-│   01   │ SPIDER-TRACER   │ Movie gadget simulator with   │
-│        │                 │ sonar radar, lock-on & pings  │
-│   02   │ MOTION RADAR    │ 6-DOF attitude web radar with │
-│        │                 │ dynamic tilt vector & readout │
-│   03   │ CRASH SENSOR    │ High-G strain gauge (15G      │
-│        │                 │ trigger) & 4-event impact log │
-│   04   │ SPIDER-SENSE    │ Dynamic mask eye iris threat  │
-│        │                 │ perception engine with alerts │
-│   05   │ MARVEL CINEMA   │ Official MCU countdowns &     │
-│        │                 │ elapsed days since release    │
-│   06   │ WEB TARGETING   │ Tilt-aimed laser shooter game │
-│        │                 │ with combo multiplier & score │
-│   07   │ S.H.I.E.L.D.    │ Live telemetry, IMU chip ID,  │
-│        │ SYSTEM STATS    │ WiFi status & RAM diagnostics │
-└────────┴─────────────────┴───────────────────────────────┘
+┌─────────────────────────────────────────────────────────────┐
+│                    SPIDEY TRACKER HUD                       │
+├────────┬───────────────────┬────────────────────────────────┤
+│ Mode # │ Tactical Mode     │ What It Does                   │
+├────────┼───────────────────┼────────────────────────────────┤
+│   01   │ 🕷️ SPIDER-TRACER  │ Movie gadget locator & radar   │
+│   02   │ 🎯 MOTION RADAR   │ 6-DOF attitude & tilt vectors  │
+│   03   │ 💥 CRASH SENSOR   │ High-G impact tension meter    │
+│   04   │ ⚡ SPIDER-SENSE   │ Threat perception & mask iris  │
+│   05   │ 🎬 MARVEL CINEMA  │ NTP-synced movie countdowns    │
+│   06   │ 🎯 WEB TARGETING  │ Tilt-aimed laser shooter game  │
+│   07   │ 📊 SYSTEM STATS   │ S.H.I.E.L.D. diagnostics       │
+└────────┴───────────────────┴────────────────────────────────┘
 ```
 
 ### 1. 🕷️ Movie Spider-Tracer Simulator
-- Exact simulation of Peter Parker's iconic handheld **Spider-Tracer locator gadget** from the movies and comics.
-- 5 Trackable target beacons: **Spider-Man (Suit Beacon)**, **Vulture (Flight Pack)**, **Green Goblin (Glider)**, **Doc Ock (Neural Arm)**, **Electro (Bio-Volt)**.
-- **Directional Bearing & Signal Tracking**: Rotate/tilt your ESP32 to steer towards the target's bearing. Signal peaks to 99%, the Red/Blue LEDs strobe, and a `[TARGET LOCK]` reticle snaps onto the blip!
-- **Interactive Sonar Ping (SELECT)**: Press SELECT to fire an expanding sonar radar ripple wave and update target proximity!
+The flagship gadget. It simulates Peter Parker's iconic handheld locator:
+- **5 Trackable Targets**: Lock onto *Spider-Man (Suit Beacon)*, *Vulture (Flight Pack)*, *Green Goblin (Glider)*, *Doc Ock (Neural Arm)*, or *Electro (Bio-Volt)*.
+- **Directional Steering**: Rotate and turn your ESP32 in your hand! As your device aligns with the target's bearing, the signal climbs to **99%**, the red LED pulses in rhythm, and a `[TARGET LOCK]` reticle snaps onto the blip.
+- **Interactive Sonar Ping (`SELECT`)**: Press the button to fire an expanding radar sonar wave across the screen and update target distance in real time.
 
-### 2. 🎯 Motion Radar
-- Concentric octagonal spider-web radar with 8 azimuth navigation guides.
-- Real-time tilt vector line radiating from origin to target cursor.
-- Full digital attitude telemetry (`aX`, `aY`, `aZ`, total `G-force`) and live magnitude bar.
-- LED feedback: **Blue LED** indicates X-axis tilt; **Green LED** indicates Y-axis tilt.
+### 2. 🎯 6-DOF Motion Radar
+- Concentric spider-web radar with 8 azimuth guides that tracks real-world device pitch, roll, and tilt.
+- Draws live vector lines and attitude reticles with real-time numeric telemetry (`aX`, `aY`, `aZ`, total `G-force`).
+- Status LEDs respond with smooth PWM dimming as you tilt.
 
-### 3. 💥 Crash & Impact Sensor
-- High-G web strain tension meter with 15G critical impact marker.
-- Real-time acceleration magnitude and peak hold memory.
-- Impact history log recording peak force and timestamp.
-- Full-screen tactical red strobe alert overlay + rapid **Red LED** flashing on heavy impact.
+### 3. 💥 Impact & Crash Detector
+- High-G web-tension strain meter with a **15G critical impact threshold**.
+- Keeps a peak-hold record and logs the last 4 impacts with exact timestamps.
+- Features a full-screen tactical red strobe alert if you drop or shake the device hard enough!
 
-### 4. 🕷️ Spider-Sense Threat Perception
-- Center tactical mask HUD featuring dynamic iris aperture shutter blades.
-- Senses subtle vibration and sudden acceleration deltas.
-- On trigger: Eyes dilate wide with `! THREAT ALERT !` banner and alternating LED strobe patterns.
-- Adjustable sensitivity slider via UP/DOWN navigation buttons.
+### 4. ⚡ Spider-Sense Threat Perception Engine
+- A center-stage Spider-Man mask HUD with animated titanium lenses.
+- Senses subtle ambient vibrations and sudden acceleration spikes.
+- When danger is detected, the mask eyes dilate wide, the screen flashes `! THREAT ALERT !`, and the LEDs strobe in alternating warning pulses.
 
-### 5. 🎬 Marvel Cinema Tracker (NTP-Synced & Dual-Mode)
-- Exact release dates synced with real-world atomic clocks over WiFi:
-  - **Spider-Man: Brand New Day** (24 Jul 2026) — *Upcoming Countdown*
-  - **Avengers: Doomsday** (18 Dec 2026) — *Upcoming Countdown*
-  - **Avengers: Secret Wars** (17 Dec 2027) — *Upcoming Countdown*
-  - **Spider-Man: Beyond the Spider-Verse** (25 Jun 2027) — *Upcoming Countdown*
-  - **The Fantastic Four: First Steps** (25 Jul 2025) — *Elapsed Days Since Release (`+DAYS AGO`)*
-  - **Spider-Man: No Way Home** (17 Dec 2021) — *Elapsed Days Since Release (`+DAYS AGO`)*
+### 5. 🎬 Marvel Cinema Tracker (WiFi + NTP Synced)
+- Hooks up to your local WiFi (`Airtel_Dhruv`) and syncs with global atomic clocks via NTP.
+- **Upcoming Movies**: Real-time ticking countdown (`DAYS LEFT` + `HH:MM:SS`) to premiere:
+  - *Spider-Man: Brand New Day* (24 Jul 2026)
+  - *Avengers: Doomsday* (18 Dec 2026)
+  - *Avengers: Secret Wars* (17 Dec 2027)
+  - *Spider-Man: Beyond the Spider-Verse* (25 Jun 2027)
+- **Released Milestones**: Counts elapsed time (`+DAYS AGO` + `+HH:MM:SS`) since premiere:
+  - *The Fantastic Four: First Steps* (25 Jul 2025)
+  - *Spider-Man: No Way Home* (17 Dec 2021)
 
 ### 6. 🎮 Web Targeting Mini-Game
-- Full portrait tactical arena with dynamic spider drone targets.
-- Tilt the device to steer the laser crosshair reticle.
-- Press **SELECT** to fire web tracers from the bottom launcher.
-- Hit detection with particle explosion rings, accuracy tracking, and combo multipliers.
+- Tilt the ESP32 to steer a high-tech laser crosshair across a vertical playfield.
+- Tap **SELECT** to fire web tracers from the bottom launcher.
+- Includes moving drone targets, particle explosion rings, accuracy tracking, and score combo multipliers!
 
-### 7. 📊 S.H.I.E.L.D. System Diagnostics
-- Real-time 3-axis accelerometer and 3-axis gyroscope readouts.
-- Automatic IMU chip identification (MPU6050 vs. MPU6500) via `WHO_AM_I` register.
-- WiFi status & NTP lock telemetry, CPU temperature, system uptime, and free heap RAM.
+### 7. 📊 S.H.I.E.L.D. Diagnostics
+- Live telemetry monitor showing real-time 3-axis accelerometer and gyroscope waveforms.
+- Automatic IMU chip detection (MPU6050 vs. MPU6500) via the `WHO_AM_I` register, CPU core temperature, system uptime, and heap memory usage.
 
 ---
 
-## 🛠️ Hardware Pinout & Wiring
+## 🛠️ The Hardware Setup
+
+Here's the full wiring blueprint to build your own Spidey Tracker:
 
 | Component | Pin Function | ESP32 Pin | GPIO | Pin Type | Notes |
 |:---|:---|:---|:---|:---|:---|
-| **ST7735 1.8" TFT** | VCC | 3.3V | — | Power | Display power |
-| | GND | GND | — | Ground | Display ground |
+| **ST7735 1.8" TFT** | VCC | 3.3V | — | Power | 3.3V power |
+| | GND | GND | — | Ground | Common ground |
 | | LED / BLK | 3.3V | — | Power | Backlight power |
 | | CS | D5 | GPIO 5 | SPI CS | Chip Select |
 | | RESET | D4 | GPIO 4 | Digital OUT | Hardware Reset |
-| | A0 / DC | D2 | GPIO 2 | Digital OUT | Data / Command Selection |
-| | SDA / MOSI | D23 | GPIO 23 | Hardware SPI | VSPI MOSI Data line |
+| | A0 / DC | D2 | GPIO 2 | Digital OUT | Data / Command |
+| | SDA / MOSI | D23 | GPIO 23 | Hardware SPI | VSPI MOSI line |
 | | SCK / SCL | D18 | GPIO 18 | Hardware SPI | VSPI Clock line |
-| **MPU6050 / MPU6500 IMU** | VCC | VIN / 5V | — | Power | Power (VIN to onboard 3.3V reg) |
-| | GND | GND | — | Ground | Sensor ground |
-| | SDA | D21 | GPIO 21 | I2C Data | Default I2C SDA (100 kHz) |
-| | SCL | D22 | GPIO 22 | I2C Clock | Default I2C SCL (100 kHz) |
+| **MPU6050 / 6500 IMU** | VCC | VIN / 5V | — | Power | Onboard 3.3V regulator |
+| | GND | GND | — | Ground | Common ground |
+| | SDA | D21 | GPIO 21 | I2C Data | Hardware I2C (100 kHz) |
+| | SCL | D22 | GPIO 22 | I2C Clock | Hardware I2C (100 kHz) |
 | | INT | D15 | GPIO 15 | Digital IN | Hardware Interrupt |
 | **Status LEDs** | Blue (X-Tilt) | D12 | GPIO 12 | PWM OUT | Active High |
 | | Green (Y-Tilt) | D14 | GPIO 14 | PWM OUT | Active High (PWM Dimmed) |
 | | Red (Alert/Crash) | D27 | GPIO 27 | PWM OUT | Active High |
-| **Navigation Switches** | UP Button | D25 | GPIO 25 | Digital IN | Active Low (`INPUT_PULLUP`) |
+| **Tactile Buttons** | UP Button | D25 | GPIO 25 | Digital IN | Active Low (`INPUT_PULLUP`) |
 | | SELECT Button | D26 | GPIO 26 | Digital IN | Active Low (`INPUT_PULLUP`) |
 | | DOWN Button | D33 | GPIO 33 | Digital IN | Active Low (`INPUT_PULLUP`) |
 
 ---
 
-## 🕹️ Controls Guide
+## 🕹️ How to Control It
 
-| Button | Action | Context |
-|---|---|---|
-| **UP** (GPIO 25) | Navigate Up / Adjust Setting | Menus, Movie Cards, Sensitivity |
-| **DOWN** (GPIO 33) | Navigate Down / Adjust Setting | Menus, Movie Cards, Sensitivity |
-| **SELECT** (GPIO 26) | Activate / Shoot Web / Reset Peak | Menu Selection, Web Shooter |
-| **HOLD SELECT (1.2s)** | Return to Main Menu | Anywhere inside any active mode |
+| Button | What It Does |
+|---|---|
+| **▲ UP** (GPIO 25) | Scroll up through menus / switch movie cards / adjust sensitivity |
+| **▼ DOWN** (GPIO 33) | Scroll down through menus / switch movie cards / adjust sensitivity |
+| **● SELECT** (GPIO 26) | Open mode / Fire web tracer / Trigger sonar ping / Reset peak G |
+| **● HOLD SELECT (1.2s)** | Quick escape hatch — takes you straight back to the main menu from any mode |
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Building & Flashing
 
-### Prerequisites
-- [PlatformIO Core (CLI)](https://platformio.org/install/cli) or [VS Code PlatformIO IDE](https://platformio.org/platformio-ide)
-- ESP32 DevKit V1 board
-- ST7735 1.8" SPI TFT Screen (128×160)
-- MPU6050 / MPU6500 IMU module
+Getting this running on your ESP32 takes less than 2 minutes using PlatformIO:
 
-### 1. Build & Upload
+### 1. Clone the Repo
 ```bash
-# Compile firmware
+git clone https://github.com/Eurt-labs/Spidey-tracker.git
+cd Spidey-tracker
+```
+
+### 2. Build the Code
+```bash
 pio run
+```
 
-# Flash to connected ESP32
+### 3. Flash to Your ESP32
+Plug your board in via USB and run:
+```bash
 pio run -t upload
+```
 
-# Open Serial Monitor
+### 4. Open Serial Monitor (Optional)
+To watch boot logs and WiFi NTP synchronization:
+```bash
 pio device monitor -b 115200
 ```
 
 ---
 
-## 📜 License
+## 📁 Repository Layout
 
-This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
+```text
+Spidey-tracker/
+├── assets/
+│   └── spidey_banner.svg     # Animated Spider-Man vector banner
+├── HARDWARE_PINOUT.md        # Hardware reference specs
+├── platformio.ini            # PlatformIO config & dependencies
+├── README.md                 # You are here!
+├── .gitignore                # Build & IDE ignores
+└── src/
+    ├── config.h              # Pinouts, RGB565 HUD colors & WiFi credentials
+    ├── spider_bitmaps.h      # PROGMEM Iron Spider insignia & HUD icons
+    ├── boot_animation.h/.cpp # 4-Phase Stark-Tech cinematic boot animation
+    ├── menu_system.h/.cpp    # Portrait scrollable HUD menu with neon brackets
+    ├── spidey_tracer.h/.cpp  # Movie Spider-Tracer gadget simulator
+    ├── motion_tracker.h/.cpp # 6-DOF spider-web radar with attitude telemetry
+    ├── crash_detector.h/.cpp # Web strain gauge, impact logger & warning strobe
+    ├── spider_sense.h/.cpp   # Iris aperture mask HUD & threat perception
+    ├── marvel_tracker.h/.cpp # Marvel movie countdown cards & ticking clocks
+    ├── web_shooter_game.h/.cpp # Tilt-aimed laser shooter game with combos
+    ├── stats_screen.h/.cpp   # S.H.I.E.L.D. system diagnostics & telemetry
+    └── main.cpp              # Hardware init, state machine & WiFi NTP loop
+```
+
+---
+
+## 📜 License & Credits
+
+Built with ❤️ by **Dhruv Saraswat ([@Eurt-labs](https://github.com/Eurt-labs))**.
+
+This project is licensed under the [MIT License](LICENSE). Feel free to build your own, customize the suit OS, and swing across the web!
+
+> *"With great power comes great response time."* 🕷️⚡
