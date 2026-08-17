@@ -37,40 +37,48 @@ An advanced, mature **Spidey Tracker & Tactical Multi-Tracker** built for the **
 ├────────┬─────────────────┬───────────────────────────────┤
 │ Mode # │ Name            │ Description                   │
 ├────────┼─────────────────┼───────────────────────────────┤
-│   01   │ MOTION RADAR    │ 6-DOF attitude web radar with │
+│   01   │ SPIDER-TRACER   │ Movie gadget simulator with   │
+│        │                 │ sonar radar, lock-on & pings  │
+│   02   │ MOTION RADAR    │ 6-DOF attitude web radar with │
 │        │                 │ dynamic tilt vector & readout │
-│   02   │ CRASH SENSOR    │ High-G strain gauge (15G      │
+│   03   │ CRASH SENSOR    │ High-G strain gauge (15G      │
 │        │                 │ trigger) & 4-event impact log │
-│   03   │ SPIDER-SENSE    │ Dynamic mask eye iris threat  │
+│   04   │ SPIDER-SENSE    │ Dynamic mask eye iris threat  │
 │        │                 │ perception engine with alerts │
-│   04   │ MARVEL CINEMA   │ Official MCU countdowns &     │
+│   05   │ MARVEL CINEMA   │ Official MCU countdowns &     │
 │        │                 │ elapsed days since release    │
-│   05   │ WEB TARGETING   │ Tilt-aimed laser shooter game │
+│   06   │ WEB TARGETING   │ Tilt-aimed laser shooter game │
 │        │                 │ with combo multiplier & score │
-│   06   │ S.H.I.E.L.D.    │ Live telemetry, IMU chip ID,  │
+│   07   │ S.H.I.E.L.D.    │ Live telemetry, IMU chip ID,  │
 │        │ SYSTEM STATS    │ WiFi status & RAM diagnostics │
 └────────┴─────────────────┴───────────────────────────────┘
 ```
 
-### 1. 🎯 Motion Radar
+### 1. 🕷️ Movie Spider-Tracer Simulator
+- Exact simulation of Peter Parker's iconic handheld **Spider-Tracer locator gadget** from the movies and comics.
+- 5 Trackable target beacons: **Spider-Man (Suit Beacon)**, **Vulture (Flight Pack)**, **Green Goblin (Glider)**, **Doc Ock (Neural Arm)**, **Electro (Bio-Volt)**.
+- **Directional Bearing & Signal Tracking**: Rotate/tilt your ESP32 to steer towards the target's bearing. Signal peaks to 99%, the Red/Blue LEDs strobe, and a `[TARGET LOCK]` reticle snaps onto the blip!
+- **Interactive Sonar Ping (SELECT)**: Press SELECT to fire an expanding sonar radar ripple wave and update target proximity!
+
+### 2. 🎯 Motion Radar
 - Concentric octagonal spider-web radar with 8 azimuth navigation guides.
 - Real-time tilt vector line radiating from origin to target cursor.
 - Full digital attitude telemetry (`aX`, `aY`, `aZ`, total `G-force`) and live magnitude bar.
 - LED feedback: **Blue LED** indicates X-axis tilt; **Green LED** indicates Y-axis tilt.
 
-### 2. 💥 Crash & Impact Sensor
+### 3. 💥 Crash & Impact Sensor
 - High-G web strain tension meter with 15G critical impact marker.
 - Real-time acceleration magnitude and peak hold memory.
 - Impact history log recording peak force and timestamp.
 - Full-screen tactical red strobe alert overlay + rapid **Red LED** flashing on heavy impact.
 
-### 3. 🕷️ Spider-Sense Threat Perception
+### 4. 🕷️ Spider-Sense Threat Perception
 - Center tactical mask HUD featuring dynamic iris aperture shutter blades.
 - Senses subtle vibration and sudden acceleration deltas.
 - On trigger: Eyes dilate wide with `! THREAT ALERT !` banner and alternating LED strobe patterns.
 - Adjustable sensitivity slider via UP/DOWN navigation buttons.
 
-### 4. 🎬 Marvel Cinema Tracker (NTP-Synced & Dual-Mode)
+### 5. 🎬 Marvel Cinema Tracker (NTP-Synced & Dual-Mode)
 - Exact release dates synced with real-world atomic clocks over WiFi:
   - **Spider-Man: Brand New Day** (24 Jul 2026) — *Upcoming Countdown*
   - **Avengers: Doomsday** (18 Dec 2026) — *Upcoming Countdown*
@@ -79,13 +87,13 @@ An advanced, mature **Spidey Tracker & Tactical Multi-Tracker** built for the **
   - **The Fantastic Four: First Steps** (25 Jul 2025) — *Elapsed Days Since Release (`+DAYS AGO`)*
   - **Spider-Man: No Way Home** (17 Dec 2021) — *Elapsed Days Since Release (`+DAYS AGO`)*
 
-### 5. 🎮 Web Targeting Mini-Game
+### 6. 🎮 Web Targeting Mini-Game
 - Full portrait tactical arena with dynamic spider drone targets.
 - Tilt the device to steer the laser crosshair reticle.
 - Press **SELECT** to fire web tracers from the bottom launcher.
 - Hit detection with particle explosion rings, accuracy tracking, and combo multipliers.
 
-### 6. 📊 S.H.I.E.L.D. System Diagnostics
+### 7. 📊 S.H.I.E.L.D. System Diagnostics
 - Real-time 3-axis accelerometer and 3-axis gyroscope readouts.
 - Automatic IMU chip identification (MPU6050 vs. MPU6500) via `WHO_AM_I` register.
 - WiFi status & NTP lock telemetry, CPU temperature, system uptime, and free heap RAM.
