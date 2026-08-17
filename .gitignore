@@ -12,6 +12,9 @@
 *.bak
 *~
 
-# OS specific
 .DS_Store
 Thumbs.db
+
+# Build artifacts & scratch
+compile_commands.json
+scratch/
