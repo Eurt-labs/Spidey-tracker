@@ -18,7 +18,7 @@
 ---
 
 <p align="center">
-  <img src="assets/spidey_schematic.svg" width="100%" alt="Hardware Schematic & Blueprint"/>
+  <img src="assets/spidey_hardware_blueprint.svg" width="100%" alt="Hardware Schematic &amp; Blueprint"/>
 </p>
 
 ---
