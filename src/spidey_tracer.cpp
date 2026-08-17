@@ -2,6 +2,7 @@
  * ================================================================
  *  🕷️ SPIDEY TRACKER — Movie Spider-Tracer Gadget Simulator
  *  Tactical Sonar Radar, Signal Strength, Target Lock & Sonar Ping
+ *  (Zero-Artifact Bounding-Box Direct Frame Buffer Rendering)
  * ================================================================
  */
 
@@ -35,17 +36,15 @@ static unsigned long lastDrawMs = 0;
 
 static const int radarCX = 64;
 static const int radarCY = 58;
-static const int radarR  = 40;
+static const int radarR  = 38;
 
 static float sweepAngle = 0.0f;
 static float pingRadius = -1.0f;
-static int prevBlipX = -1, prevBlipY = -1;
-static int prevSweepX = -1, prevSweepY = -1;
 
-static void drawRadarBackground(Adafruit_ST7735 &tft) {
+static void drawFullInterface(Adafruit_ST7735 &tft) {
     tft.fillScreen(SPIDEY_BLACK);
 
-    // Top Header
+    // Top Header Bar
     tft.fillRect(0, 0, SCREEN_W, 14, SPIDEY_DARKRED);
     tft.drawFastHLine(0, 14, SCREEN_W, SPIDEY_NEON_RED);
 
@@ -54,28 +53,12 @@ static void drawRadarBackground(Adafruit_ST7735 &tft) {
     tft.setCursor(4, 3);
     tft.print("SPIDER-TRACER");
 
-    // Target code tag on right
+    // Target code tag on top right
     char codeBuf[10];
     snprintf(codeBuf, sizeof(codeBuf), "#%02d", currentTargetIdx + 1);
     tft.setTextColor(SPIDEY_GOLD);
     tft.setCursor(SCREEN_W - 24, 3);
     tft.print(codeBuf);
-
-    // Sonar radar rings
-    for (int r = 13; r <= radarR; r += 13) {
-        tft.drawCircle(radarCX, radarCY, r, SPIDEY_DARK);
-    }
-
-    // Cardinal azimuth lines
-    tft.drawFastHLine(radarCX - radarR, radarCY, radarR * 2 + 1, SPIDEY_HUD_GRID);
-    tft.drawFastVLine(radarCX, radarCY - radarR, radarR * 2 + 1, SPIDEY_HUD_GRID);
-
-    // Outer radar bevel ring
-    tft.drawCircle(radarCX, radarCY, radarR, SPIDEY_HUD_FRAME);
-    tft.drawCircle(radarCX, radarCY, radarR + 2, SPIDEY_DARKRED);
-
-    // Center locator dot
-    tft.fillCircle(radarCX, radarCY, 2, SPIDEY_GOLD);
 
     // Target Profile Card (Y: 102 to 144)
     int panelY = 102;
@@ -113,10 +96,6 @@ void spideyTracerInit(Adafruit_ST7735 &tft) {
     needsFullRedraw = true;
     sweepAngle = 0.0f;
     pingRadius = -1.0f;
-    prevBlipX = -1;
-    prevBlipY = -1;
-    prevSweepX = -1;
-    prevSweepY = -1;
 }
 
 bool spideyTracerUpdate(Adafruit_ST7735 &tft, IMUData &imu, ButtonState &btn) {
@@ -148,7 +127,6 @@ bool spideyTracerUpdate(Adafruit_ST7735 &tft, IMUData &imu, ButtonState &btn) {
     // Sonar Ping on SELECT press
     if (btn.selectPressed) {
         pingRadius = 4.0f;
-        // Simulate distance decreasing as you track
         targets[currentTargetIdx].currentDist -= random(3, 10);
         if (targets[currentTargetIdx].currentDist < 12.0f) {
             targets[currentTargetIdx].currentDist = targets[currentTargetIdx].initialDist;
@@ -161,13 +139,13 @@ bool spideyTracerUpdate(Adafruit_ST7735 &tft, IMUData &imu, ButtonState &btn) {
     lastDrawMs = millis();
 
     if (needsFullRedraw) {
-        drawRadarBackground(tft);
+        drawFullInterface(tft);
         needsFullRedraw = false;
     }
 
     TracerTarget &tgt = targets[currentTargetIdx];
 
-    // Calculate relative bearing angle offset by device tilt / gyro X/Y
+    // Calculate relative bearing angle offset by device tilt
     float deviceBearing = atan2f(-imu.ax, imu.ay);
     float relativeAngle = tgt.bearingAngle - deviceBearing - (PI / 2.0f);
 
@@ -177,72 +155,69 @@ bool spideyTracerUpdate(Adafruit_ST7735 &tft, IMUData &imu, ButtonState &btn) {
     int blipX = radarCX + (int)(cos(relativeAngle) * blipR);
     int blipY = radarCY + (int)(sin(relativeAngle) * blipR);
 
-    // Compute signal strength (peaks when pointed directly toward bearing: relativeAngle ≈ -PI/2 or 0 depending on reference)
+    // Compute signal strength
     float angleDelta = fabsf(atan2f(sin(relativeAngle + PI / 2.0f), cos(relativeAngle + PI / 2.0f)));
-    float alignmentFactor = 1.0f - (angleDelta / PI); // 0.0 to 1.0
+    float alignmentFactor = 1.0f - (angleDelta / PI);
     int signalPercent = (int)(alignmentFactor * 85.0f + 15.0f);
+    bool isLockOn = (signalPercent > 85);
 
-    // Erase previous radar sweep line
-    if (prevSweepX >= 0) {
-        tft.drawLine(radarCX, radarCY, prevSweepX, prevSweepY, SPIDEY_BLACK);
-        // Redraw rings that were clipped
-        for (int r = 13; r <= radarR; r += 13) {
-            tft.drawCircle(radarCX, radarCY, r, SPIDEY_DARK);
-        }
+    // ============================================================
+    //  CLEAN RADAR RENDERING (Zero Noise / Zero Artifacts)
+    // ============================================================
+    // Clear entire radar bounding box
+    tft.fillRect(radarCX - radarR - 3, radarCY - radarR - 3, (radarR + 3) * 2 + 1, (radarR + 3) * 2 + 1, SPIDEY_BLACK);
+
+    // Draw concentric sonar rings
+    for (int r = 13; r <= radarR; r += 13) {
+        tft.drawCircle(radarCX, radarCY, r, SPIDEY_DARK);
     }
 
-    // Erase previous blip
-    if (prevBlipX >= 0) {
-        tft.fillCircle(prevBlipX, prevBlipY, 4, SPIDEY_BLACK);
-        tft.drawCircle(prevBlipX, prevBlipY, 6, SPIDEY_BLACK);
-    }
+    // Draw cardinal crosshair lines
+    tft.drawFastHLine(radarCX - radarR, radarCY, radarR * 2 + 1, SPIDEY_HUD_GRID);
+    tft.drawFastVLine(radarCX, radarCY - radarR, radarR * 2 + 1, SPIDEY_HUD_GRID);
 
-    // Erase previous sonar ping circle
+    // Draw outer radar bezel
+    tft.drawCircle(radarCX, radarCY, radarR, SPIDEY_HUD_FRAME);
+    tft.drawCircle(radarCX, radarCY, radarR + 2, SPIDEY_DARKRED);
+
+    // Draw active Sonar Ping wave if radiating
     if (pingRadius >= 0) {
-        tft.drawCircle(radarCX, radarCY, (int)pingRadius, SPIDEY_BLACK);
-        pingRadius += 5.0f;
+        tft.drawCircle(radarCX, radarCY, (int)pingRadius, SPIDEY_NEON_BLUE);
+        pingRadius += 4.5f;
         if (pingRadius > radarR) {
             pingRadius = -1.0f;
             ledcWrite(LED_RED_CH, 0);
             ledcWrite(LED_BLUE_CH, 0);
-        } else {
-            tft.drawCircle(radarCX, radarCY, (int)pingRadius, SPIDEY_NEON_BLUE);
         }
     }
 
     // Draw rotating radar sweep line
-    sweepAngle += 0.12f;
+    sweepAngle += 0.14f;
     if (sweepAngle > 2.0f * PI) sweepAngle -= 2.0f * PI;
     int sweepX = radarCX + (int)(cos(sweepAngle) * (radarR - 2));
     int sweepY = radarCY + (int)(sin(sweepAngle) * (radarR - 2));
     tft.drawLine(radarCX, radarCY, sweepX, sweepY, SPIDEY_DARKRED);
-    prevSweepX = sweepX;
-    prevSweepY = sweepY;
 
-    // Draw Target Blip (Movie Spider Beacon)
-    bool isLockOn = (signalPercent > 85);
-    uint16_t blipColor = isLockOn ? SPIDEY_ALERT : tgt.themeColor;
-
-    tft.fillCircle(blipX, blipY, 3, blipColor);
-    tft.drawCircle(blipX, blipY, 5, isLockOn ? SPIDEY_GOLD : SPIDEY_WHITE);
-
-    // Directional vector tracer line when aligned
+    // Draw directional tracer beam & lock-on brackets if aligned
     if (isLockOn) {
         tft.drawLine(radarCX, radarCY, blipX, blipY, SPIDEY_NEON_RED);
-        // Lock-on target brackets `[ + ]`
-        tft.drawRect(blipX - 6, blipY - 6, 13, 13, SPIDEY_GOLD);
+        tft.drawRect(blipX - 5, blipY - 5, 11, 11, SPIDEY_GOLD);
         ledcWrite(LED_RED_CH, 180);
     } else {
         ledcWrite(LED_RED_CH, (uint8_t)(signalPercent * 0.4f));
     }
 
-    // Redraw center origin dot
+    // Draw Target Blip
+    uint16_t blipColor = isLockOn ? SPIDEY_ALERT : tgt.themeColor;
+    tft.fillCircle(blipX, blipY, 3, blipColor);
+    tft.drawCircle(blipX, blipY, 5, isLockOn ? SPIDEY_GOLD : SPIDEY_WHITE);
+
+    // Draw center origin dot
     tft.fillCircle(radarCX, radarCY, 2, SPIDEY_GOLD);
 
-    prevBlipX = blipX;
-    prevBlipY = blipY;
-
-    // Update Telemetry Panel (Y: 102)
+    // ============================================================
+    //  TELEMETRY PANEL UPDATE
+    // ============================================================
     int panelY = 102;
     char valBuf[16];
     tft.setTextSize(1);
@@ -261,7 +236,7 @@ bool spideyTracerUpdate(Adafruit_ST7735 &tft, IMUData &imu, ButtonState &btn) {
     tft.setCursor(92, panelY + 16);
     tft.print(valBuf);
 
-    // Signal Strength Bar
+    // Signal Strength Bar Fill
     int barW = SCREEN_W - 16;
     int fillW = (int)((signalPercent / 100.0f) * barW);
     tft.fillRect(8, panelY + 30, barW, 4, SPIDEY_DARKER);
