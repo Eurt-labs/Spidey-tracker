@@ -1,0 +1,235 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 280" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#080205"/>
+      <stop offset="50%" stop-color="#120409"/>
+      <stop offset="100%" stop-color="#020814"/>
+    </linearGradient>
+
+    <!-- Neon Red Glow Filter -->
+    <filter id="neonRedGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur1"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur2"/>
+      <feMerge>
+        <feMergeNode in="blur2"/>
+        <feMergeNode in="blur1"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Lens Glow Filter -->
+    <filter id="eyeGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur1"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur2"/>
+      <feMerge>
+        <feMergeNode in="blur2"/>
+        <feMergeNode in="blur1"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Spider Red Gradient -->
+    <linearGradient id="spiderRed" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF1A35"/>
+      <stop offset="100%" stop-color="#800010"/>
+    </linearGradient>
+
+    <!-- Gold Accent Gradient -->
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FFE600"/>
+      <stop offset="100%" stop-color="#FF8C00"/>
+    </linearGradient>
+  </defs>
+
+  <style>
+    @keyframes pulseRing {
+      0% { r: 10px; opacity: 0.8; }
+      50% { r: 65px; opacity: 0.3; }
+      100% { r: 120px; opacity: 0; }
+    }
+    @keyframes rotateReticle {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    @keyframes rotateReverse {
+      0% { transform: rotate(360deg); }
+      100% { transform: rotate(0deg); }
+    }
+    @keyframes eyeBlink {
+      0%, 45%, 55%, 100% { transform: scaleY(1); }
+      50% { transform: scaleY(0.2); }
+    }
+    @keyframes webGlow {
+      0%, 100% { opacity: 0.25; }
+      50% { opacity: 0.7; }
+    }
+    @keyframes textGaze {
+      0%, 100% { opacity: 0.9; text-shadow: 0 0 8px #FF1A35; }
+      50% { opacity: 1; text-shadow: 0 0 16px #FF3B56, 0 0 24px #FFE600; }
+    }
+    @keyframes laserScan {
+      0% { transform: translateY(-40px); opacity: 0; }
+      30% { opacity: 1; }
+      70% { opacity: 1; }
+      100% { transform: translateY(40px); opacity: 0; }
+    }
+
+    .pulse-circle {
+      animation: pulseRing 3.5s cubic-bezier(0.2, 0.8, 0.4, 1) infinite;
+      transform-origin: 150px 140px;
+    }
+    .pulse-delay-1 { animation-delay: 1.2s; }
+    .pulse-delay-2 { animation-delay: 2.4s; }
+
+    .reticle-spin {
+      transform-origin: 150px 140px;
+      animation: rotateReticle 14s linear infinite;
+    }
+    .reticle-spin-rev {
+      transform-origin: 150px 140px;
+      animation: rotateReverse 20s linear infinite;
+    }
+    .eye-anim {
+      transform-origin: 150px 140px;
+      animation: eyeBlink 4s ease-in-out infinite;
+    }
+    .web-strand {
+      animation: webGlow 3s ease-in-out infinite;
+    }
+    .laser-beam {
+      animation: laserScan 2.5s ease-in-out infinite;
+    }
+    .spidey-title {
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Montserrat', Roboto, sans-serif;
+      font-weight: 900;
+      letter-spacing: 4px;
+      animation: textGaze 3s ease-in-out infinite;
+    }
+    .hud-sub {
+      font-family: 'SF Pro Text', -apple-system, 'Segoe UI', monospace;
+      letter-spacing: 2px;
+      font-size: 13px;
+      fill: #00F0FF;
+    }
+  </style>
+
+  <!-- Background Panel with Beveled Border -->
+  <rect x="2" y="2" width="796" height="276" rx="16" fill="url(#bgGrad)" stroke="#200B14" stroke-width="2"/>
+  
+  <!-- Subtle Cyber Web Strands in Background -->
+  <g stroke="#FF1A35" stroke-width="0.8" opacity="0.3" class="web-strand">
+    <!-- Web Radials from (150, 140) -->
+    <line x1="150" y1="140" x2="30" y2="20"/>
+    <line x1="150" y1="140" x2="150" y2="10"/>
+    <line x1="150" y1="140" x2="270" y2="20"/>
+    <line x1="150" y1="140" x2="290" y2="140"/>
+    <line x1="150" y1="140" x2="270" y2="260"/>
+    <line x1="150" y1="140" x2="150" y2="270"/>
+    <line x1="150" y1="140" x2="30" y2="260"/>
+    <line x1="150" y1="140" x2="10" y2="140"/>
+
+    <!-- Concentric Web Spirals -->
+    <polygon points="110,100 150,90 190,100 205,140 190,180 150,190 110,180 95,140" fill="none"/>
+    <polygon points="75,65 150,45 225,65 255,140 225,215 150,235 75,215 45,140" fill="none"/>
+    <polygon points="40,30 150,15 260,30 285,140 260,250 150,265 40,250 20,140" fill="none"/>
+  </g>
+
+  <!-- Left Side: Interactive Tactical Spider HUD -->
+  <!-- Expanding Sonar Pulse Waves -->
+  <circle cx="150" cy="140" r="10" fill="none" stroke="#FF1A35" stroke-width="1.5" class="pulse-circle" opacity="0.8"/>
+  <circle cx="150" cy="140" r="10" fill="none" stroke="#00F0FF" stroke-width="1.5" class="pulse-circle pulse-delay-1" opacity="0.6"/>
+  <circle cx="150" cy="140" r="10" fill="none" stroke="#FFE600" stroke-width="1.5" class="pulse-circle pulse-delay-2" opacity="0.5"/>
+
+  <!-- Rotating Outer Radar Reticle -->
+  <g class="reticle-spin">
+    <circle cx="150" cy="140" r="74" fill="none" stroke="#FF1A35" stroke-width="1.5" stroke-dasharray="8 6 2 6" opacity="0.7"/>
+    <path d="M 150 62 L 150 56 M 150 218 L 150 224 M 66 140 L 60 140 M 234 140 L 240 140" stroke="#FFE600" stroke-width="2"/>
+  </g>
+
+  <!-- Rotating Inner Reticle (Reverse) -->
+  <g class="reticle-spin-rev">
+    <circle cx="150" cy="140" r="56" fill="none" stroke="#00F0FF" stroke-width="1" stroke-dasharray="16 8 4 8" opacity="0.6"/>
+  </g>
+
+  <!-- Spider-Man Mask Head Base -->
+  <g filter="url(#neonRedGlow)">
+    <!-- Mask Contour -->
+    <path d="M 150,78 C 190,78 206,108 204,146 C 202,180 178,206 150,214 C 122,206 98,180 96,146 C 94,108 110,78 150,78 Z" 
+          fill="url(#spiderRed)" stroke="#FF4D66" stroke-width="2"/>
+    
+    <!-- Mask Webbing Lines -->
+    <g stroke="#3A000A" stroke-width="1.2" fill="none">
+      <path d="M 150,80 L 150,212"/>
+      <path d="M 150,140 L 102,100 M 150,140 L 198,100"/>
+      <path d="M 150,140 L 98,140 M 150,140 L 202,140"/>
+      <path d="M 150,140 L 108,185 M 150,140 L 192,185"/>
+      <path d="M 125,108 Q 150,122 175,108"/>
+      <path d="M 115,140 Q 150,158 185,140"/>
+      <path d="M 124,175 Q 150,190 176,175"/>
+    </g>
+  </g>
+
+  <!-- Animated Eyes (Squint / Blink Animation) -->
+  <g class="eye-anim" filter="url(#eyeGlow)">
+    <!-- Left Eye Lens -->
+    <path d="M 142,130 Q 132,118 108,124 Q 120,152 142,154 Q 146,142 142,130 Z" 
+          fill="#FFFFFF" stroke="#000000" stroke-width="3"/>
+    <!-- Right Eye Lens -->
+    <path d="M 158,130 Q 168,118 192,124 Q 180,152 158,154 Q 154,142 158,130 Z" 
+          fill="#FFFFFF" stroke="#000000" stroke-width="3"/>
+  </g>
+
+  <!-- Laser Scan Effect Bar -->
+  <line x1="85" y1="140" x2="215" y2="140" stroke="#00F0FF" stroke-width="2" opacity="0.8" class="laser-beam" filter="url(#eyeGlow)"/>
+
+  <!-- Right Side: Spidey Typography & HUD Content -->
+  <!-- Top HUD Status Ticker -->
+  <g transform="translate(300, 48)">
+    <rect x="0" y="0" width="10" height="10" fill="#00F0FF"/>
+    <text x="18" y="9" class="hud-sub">STARK-TECH PROTOCOL v4.2 // ONLINE</text>
+    <rect x="360" y="0" width="80" height="12" rx="3" fill="#38000A" stroke="#FF1A35" stroke-width="1"/>
+    <text x="372" y="9" font-family="monospace" font-size="9" fill="#FFE600">6-DOF IMU</text>
+  </g>
+
+  <!-- Main Title -->
+  <text x="300" y="105" font-size="44" fill="#FFFFFF" class="spidey-title">SPIDEY TRACKER</text>
+
+  <!-- Subtitle Tagline -->
+  <text x="302" y="138" font-family="'Segoe UI', -apple-system, sans-serif" font-size="16" font-weight="600" fill="#FF4D66">
+    Tactical Multi-Tracker, Motion Radar &amp; Spider-Sense HUD for ESP32
+  </text>
+
+  <!-- Feature Badges Row -->
+  <g transform="translate(302, 165)">
+    <!-- Badge 1: Tracer Radar -->
+    <rect x="0" y="0" width="105" height="26" rx="5" fill="#140810" stroke="#FF1A35" stroke-width="1.2"/>
+    <text x="10" y="17" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#FFFFFF">🕷️ TRACER</text>
+
+    <!-- Badge 2: Spider Sense -->
+    <rect x="115" y="0" width="115" height="26" rx="5" fill="#140810" stroke="#FFE600" stroke-width="1.2"/>
+    <text x="125" y="17" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#FFE600">⚡ SPIDER-SENSE</text>
+
+    <!-- Badge 3: Marvel Countdown -->
+    <rect x="240" y="0" width="115" height="26" rx="5" fill="#140810" stroke="#00F0FF" stroke-width="1.2"/>
+    <text x="250" y="17" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#00F0FF">🎬 MCU TRACKER</text>
+
+    <!-- Badge 4: Web Shooter -->
+    <rect x="365" y="0" width="105" height="26" rx="5" fill="#140810" stroke="#FF4D66" stroke-width="1.2"/>
+    <text x="375" y="17" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#FF4D66">🎯 SHOOTER</text>
+  </g>
+
+  <!-- Bottom Coordinates & System Specs -->
+  <g transform="translate(302, 225)" font-family="monospace" font-size="11" fill="#758A99">
+    <text x="0" y="0">QUEENS, NY // BEACON 433.92MHz // ESP32 + ST7735 + MPU6050</text>
+    <text x="0" y="18" fill="#FF1A35">&gt; "With great power comes great response time."</text>
+  </g>
+
+  <!-- Corner Brackets -->
+  <g stroke="#FF1A35" stroke-width="2" fill="none">
+    <path d="M 12 28 L 12 12 L 28 12"/>
+    <path d="M 788 28 L 788 12 L 772 12"/>
+    <path d="M 12 252 L 12 268 L 28 268"/>
+    <path d="M 788 252 L 788 268 L 772 268"/>
+  </g>
+</svg>
