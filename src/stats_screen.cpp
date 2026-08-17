@@ -193,6 +193,23 @@ bool statsScreenUpdate(Adafruit_ST7735 &tft, IMUData &imu, ButtonState &btn) {
         tft.setCursor(98, 130);
         tft.print(ESP.getFreeHeap() / 1024);
         tft.print("K");
+
+        // WiFi Status line
+        tft.fillRect(4, 140, SCREEN_W - 8, 8, SPIDEY_BLACK);
+        tft.setTextSize(1);
+        if (sysStatus.timeSynced) {
+            tft.setTextColor(SPIDEY_CYAN);
+            tft.setCursor(4, 140);
+            tft.print("WIFI: NTP LOCKED");
+        } else if (sysStatus.wifiConnected) {
+            tft.setTextColor(SPIDEY_GREEN);
+            tft.setCursor(4, 140);
+            tft.print("WIFI: CONNECTED");
+        } else {
+            tft.setTextColor(SPIDEY_AMBER);
+            tft.setCursor(4, 140);
+            tft.print("WIFI: SEARCHING");
+        }
     }
 
     return true;
