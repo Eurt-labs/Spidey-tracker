@@ -1,0 +1,17 @@
+# PlatformIO
+.pio/
+.pioenvs/
+.piolibdeps/
+.clang_complete
+.gcc-flags.json
+
+# IDE / Editor files
+.vscode/
+.idea/
+*.swp
+*.bak
+*~
+
+# OS specific
+.DS_Store
+Thumbs.db
