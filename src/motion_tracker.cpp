@@ -2,22 +2,22 @@
  * ================================================================
  *  🕷️ SPIDEY TRACKER — Motion Radar (Portrait 128x160)
  *  Tactical Spider-Web Radar with 6-DOF Attitude & Tilt Vector
+ *  (Zero-Artifact Bounding-Box Direct Frame Buffer Rendering)
  * ================================================================
  */
 
 #include "motion_tracker.h"
 #include <math.h>
 
-static int prevDotX = -1, prevDotY = -1;
 static bool needsFullRedraw = true;
 static unsigned long lastDrawMs = 0;
 
 static const int radarCX = 64;
 static const int radarCY = 58;
-static const int radarR  = 42;
+static const int radarR  = 40;
 
-// Draw tactical radar background
-static void drawRadarBackground(Adafruit_ST7735 &tft) {
+// Draw static framing and telemetry panel
+static void drawStaticUI(Adafruit_ST7735 &tft) {
     tft.fillScreen(SPIDEY_BLACK);
 
     // Title bar
@@ -27,36 +27,6 @@ static void drawRadarBackground(Adafruit_ST7735 &tft) {
     tft.setTextSize(1);
     tft.setCursor(16, 3);
     tft.print("MOTION RADAR");
-
-    // Concentric spider-web radar rings
-    for (int r = 10; r <= radarR; r += 11) {
-        for (int a = 0; a < 360; a += 15) {
-            float r1 = a * PI / 180.0f;
-            float r2 = (a + 15) * PI / 180.0f;
-            int x1 = radarCX + (int)(cos(r1) * r);
-            int y1 = radarCY + (int)(sin(r1) * r);
-            int x2 = radarCX + (int)(cos(r2) * r);
-            int y2 = radarCY + (int)(sin(r2) * r);
-            tft.drawLine(x1, y1, x2, y2, SPIDEY_DARK);
-        }
-    }
-
-    // 8 radial web azimuth guides
-    for (int i = 0; i < 8; i++) {
-        float angle = i * (PI / 4.0f);
-        int ex = radarCX + (int)(cos(angle) * radarR);
-        int ey = radarCY + (int)(sin(angle) * radarR);
-        tft.drawLine(radarCX, radarCY, ex, ey, SPIDEY_HUD_GRID);
-    }
-
-    // Radar outer ring
-    tft.drawCircle(radarCX, radarCY, radarR, SPIDEY_HUD_FRAME);
-    tft.drawCircle(radarCX, radarCY, radarR + 2, SPIDEY_DARKRED);
-
-    // Center crosshair
-    tft.fillCircle(radarCX, radarCY, 2, SPIDEY_GOLD);
-    tft.drawFastHLine(radarCX - 6, radarCY, 13, SPIDEY_HUD_FRAME);
-    tft.drawFastVLine(radarCX, radarCY - 6, 13, SPIDEY_HUD_FRAME);
 
     // Axis markings
     tft.setTextColor(SPIDEY_WEB);
@@ -94,8 +64,6 @@ static void drawRadarBackground(Adafruit_ST7735 &tft) {
 
 void motionTrackerInit(Adafruit_ST7735 &tft) {
     needsFullRedraw = true;
-    prevDotX = -1;
-    prevDotY = -1;
 }
 
 bool motionTrackerUpdate(Adafruit_ST7735 &tft, IMUData &imu, ButtonState &btn) {
@@ -109,19 +77,11 @@ bool motionTrackerUpdate(Adafruit_ST7735 &tft, IMUData &imu, ButtonState &btn) {
     lastDrawMs = millis();
 
     if (needsFullRedraw) {
-        drawRadarBackground(tft);
+        drawStaticUI(tft);
         needsFullRedraw = false;
     }
 
-    // Erase previous dot and vector line
-    if (prevDotX >= 0 && prevDotY >= 0) {
-        tft.fillCircle(prevDotX, prevDotY, 4, SPIDEY_BLACK);
-        tft.drawLine(radarCX, radarCY, prevDotX, prevDotY, SPIDEY_BLACK);
-        // Redraw center
-        tft.fillCircle(radarCX, radarCY, 2, SPIDEY_GOLD);
-    }
-
-    // Map tilt
+    // Map tilt to coordinates
     float maxTilt = 9.81f;
     int dotX = radarCX + (int)(CLAMP(imu.ax, -maxTilt, maxTilt) / maxTilt * (radarR - 4));
     int dotY = radarCY - (int)(CLAMP(imu.ay, -maxTilt, maxTilt) / maxTilt * (radarR - 4));
@@ -133,6 +93,36 @@ bool motionTrackerUpdate(Adafruit_ST7735 &tft, IMUData &imu, ButtonState &btn) {
         dotY = radarCY + (int)((dotY - radarCY) * scale);
     }
 
+    // ============================================================
+    //  CLEAN RADAR RENDERING (Zero Noise / Zero Artifacts)
+    // ============================================================
+    tft.fillRect(radarCX - radarR - 3, radarCY - radarR - 3, (radarR + 3) * 2 + 1, (radarR + 3) * 2 + 1, SPIDEY_BLACK);
+
+    // Concentric spider-web radar rings
+    for (int r = 11; r <= radarR; r += 11) {
+        for (int a = 0; a < 360; a += 15) {
+            float r1 = a * PI / 180.0f;
+            float r2 = (a + 15) * PI / 180.0f;
+            int x1 = radarCX + (int)(cos(r1) * r);
+            int y1 = radarCY + (int)(sin(r1) * r);
+            int x2 = radarCX + (int)(cos(r2) * r);
+            int y2 = radarCY + (int)(sin(r2) * r);
+            tft.drawLine(x1, y1, x2, y2, SPIDEY_DARK);
+        }
+    }
+
+    // 8 radial web azimuth guides
+    for (int i = 0; i < 8; i++) {
+        float angle = i * (PI / 4.0f);
+        int ex = radarCX + (int)(cos(angle) * radarR);
+        int ey = radarCY + (int)(sin(angle) * radarR);
+        tft.drawLine(radarCX, radarCY, ex, ey, SPIDEY_HUD_GRID);
+    }
+
+    // Outer radar rings
+    tft.drawCircle(radarCX, radarCY, radarR, SPIDEY_HUD_FRAME);
+    tft.drawCircle(radarCX, radarCY, radarR + 2, SPIDEY_DARKRED);
+
     // Draw vector line from origin to dot
     tft.drawLine(radarCX, radarCY, dotX, dotY, SPIDEY_DARKRED);
 
@@ -140,10 +130,12 @@ bool motionTrackerUpdate(Adafruit_ST7735 &tft, IMUData &imu, ButtonState &btn) {
     tft.fillCircle(dotX, dotY, 4, SPIDEY_NEON_RED);
     tft.drawCircle(dotX, dotY, 4, SPIDEY_GOLD);
 
-    prevDotX = dotX;
-    prevDotY = dotY;
+    // Center crosshair origin
+    tft.fillCircle(radarCX, radarCY, 2, SPIDEY_GOLD);
 
-    // Update Telemetry numbers
+    // ============================================================
+    //  TELEMETRY PANEL UPDATE
+    // ============================================================
     int panelY = 104;
     char buf[10];
     tft.setTextSize(1);
