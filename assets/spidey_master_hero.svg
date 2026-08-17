@@ -179,34 +179,24 @@
   </g>
 
   <!-- ============================================================== -->
-  <!-- RIGHT: PERFECTLY ALIGNED STARK-TECH HUD TYPOGRAPHY & TELEMETRY -->
+  <!-- RIGHT: PERFECTLY ALIGNED TYPOGRAPHY & TELEMETRY BADGES         -->
   <!-- ============================================================== -->
   
-  <!-- Top Ticker Tag (Shifted to x=480) -->
-  <g transform="translate(480, 42)">
-    <rect x="0" y="0" width="8" height="8" fill="#00F0FF"/>
-    <text x="16" y="8" font-family="'Segoe UI', monospace" font-size="12" font-weight="700" fill="#00F0FF" letter-spacing="2">
-      STARK-TECH HUD PROTOCOL v4.2 // ONLINE
-    </text>
-    <rect x="360" y="-4" width="130" height="18" rx="4" fill="#200008" stroke="#FF1E38" stroke-width="1"/>
-    <text x="372" y="9" font-family="monospace" font-size="10" font-weight="700" fill="#FFE57F">BEACON: 433.92MHz</text>
-  </g>
-
   <!-- Main Headline Title with Neon Glow -->
-  <g transform="translate(480, 115)" class="neon-title">
-    <text x="0" y="0" font-family="'Segoe UI', -apple-system, 'Impact', sans-serif" font-size="52" font-weight="900" fill="#FFFFFF" letter-spacing="4">
+  <g transform="translate(480, 95)" class="neon-title">
+    <text x="0" y="0" font-family="'Segoe UI', -apple-system, 'Impact', sans-serif" font-size="54" font-weight="900" fill="#FFFFFF" letter-spacing="4">
       SPIDEY TRACKER
     </text>
   </g>
 
-  <!-- Fun Subtitle / Tagline (Fits without wrapping) -->
-  <text x="482" y="152" font-family="'Segoe UI', -apple-system, sans-serif" font-size="16" font-weight="700" fill="#FFE57F">
-    🕷️ Built for fun, good vibes, &amp; tracking villains on a Saturday night.
+  <!-- Fun Subtitle / Tagline -->
+  <text x="482" y="135" font-family="'Segoe UI', -apple-system, sans-serif" font-size="16.5" font-weight="700" fill="#FFE57F">
+    🕷️ Built for fun, good vibes, &amp; tracking villains.
   </text>
 
-  <!-- 7 Interactive Badges in 2 Rows (Aligned with 480px left margin) -->
+  <!-- 7 Interactive Badges in 2 Rows -->
   <!-- Row 1 -->
-  <g transform="translate(482, 178)">
+  <g transform="translate(482, 165)">
     <g transform="translate(0, 0)">
       <rect width="115" height="30" rx="6" fill="#18040C" stroke="#FF1E38" stroke-width="1.5"/>
       <text x="10" y="19" font-family="'Segoe UI', sans-serif" font-size="10.5" font-weight="800" fill="#FFFFFF">🕷️ SPIDER-TRACER</text>
@@ -226,7 +216,7 @@
   </g>
 
   <!-- Row 2 -->
-  <g transform="translate(482, 220)">
+  <g transform="translate(482, 208)">
     <g transform="translate(0, 0)">
       <rect width="115" height="26" rx="5" fill="#100308" stroke="#FF1E38" stroke-width="1" opacity="0.85"/>
       <text x="10" y="17" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#FF4D66">🎯 MOTION RADAR</text>
@@ -246,7 +236,7 @@
   </g>
 
   <!-- Bottom Coordinate Specs -->
-  <g transform="translate(482, 285)" font-family="monospace" font-size="11.5" fill="#788896">
+  <g transform="translate(482, 275)" font-family="monospace" font-size="11.5" fill="#788896">
     <text x="0" y="0">QUEENS, NYC // ESP32 DevKit V1 + 1.8&quot; ST7735 TFT + MPU6050 6-DOF IMU</text>
     <text x="0" y="20" fill="#FF1E38" font-weight="700">&gt; &quot;With great power comes great response time.&quot;</text>
   </g>
