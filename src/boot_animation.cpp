@@ -139,12 +139,12 @@ static void drawSpiderVectorScan(Adafruit_ST7735 &tft) {
     tft.drawPixel(SCREEN_W - 9, SCREEN_H - 17, SPIDEY_GOLD);
 
     // Title HUD Box
-    tft.fillRect(18, 4, SCREEN_W - 36, 12, SPIDEY_DARKRED);
-    tft.drawRect(18, 4, SCREEN_W - 36, 12, SPIDEY_NEON_RED);
+    tft.fillRect(14, 4, SCREEN_W - 28, 12, SPIDEY_DARKRED);
+    tft.drawRect(14, 4, SCREEN_W - 28, 12, SPIDEY_NEON_RED);
     tft.setTextColor(SPIDEY_WHITE);
     tft.setTextSize(1);
-    tft.setCursor(24, 6);
-    tft.print("STARK-TECH HUD");
+    tft.setCursor(22, 6);
+    tft.print("SPIDEY TRACKER");
 
     int logoX = cx - 16;
     int logoY = cy - 16;
@@ -193,8 +193,8 @@ static void drawSpiderVectorScan(Adafruit_ST7735 &tft) {
         delay(40);
     }
 
-    // Typewriter Subtitle: "PETER PARKER OS"
-    const char *sub = "SPIDEY OS v4.2";
+    // Subtitle: "SPIDEY TRACKER v4.2"
+    const char *sub = "SPIDEY TRACKER";
     int textX = (SCREEN_W - strlen(sub) * 6) / 2;
     tft.setTextColor(SPIDEY_GOLD);
     tft.setCursor(textX, cy + 26);

@@ -32,14 +32,15 @@ static void drawTopBar(Adafruit_ST7735 &tft) {
     // Mini spider crest on left
     tft.drawBitmap(3, 4, spider_mini_12x12, 12, 12, SPIDEY_NEON_RED);
 
-    // Title
+    // Title: SPIDEY TRACKER
     tft.setTextColor(SPIDEY_WHITE);
     tft.setTextSize(1);
     tft.setCursor(18, 6);
-    tft.print("SPIDEY HUD OS");
+    tft.print("SPIDEY TRACKER");
 
-    // Live status dot (green)
-    tft.fillCircle(SCREEN_W - 8, 10, 2, SPIDEY_GREEN);
+    // WiFi / Status indicator dot (Cyan if time synced, Green if WiFi connected, Dim red if offline)
+    uint16_t statusCol = sysStatus.timeSynced ? SPIDEY_CYAN : (sysStatus.wifiConnected ? SPIDEY_GREEN : SPIDEY_DARKRED);
+    tft.fillCircle(SCREEN_W - 8, 10, 2, statusCol);
 }
 
 // Draw bottom status bar
