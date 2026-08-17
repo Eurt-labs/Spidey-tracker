@@ -1,0 +1,332 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 580" width="100%" height="100%">
+  <defs>
+    <!-- Card Dark Gradient -->
+    <linearGradient id="cardBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#12040D"/>
+      <stop offset="100%" stop-color="#05010A"/>
+    </linearGradient>
+
+    <!-- Header Gradient -->
+    <linearGradient id="secHeadGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FF1E38"/>
+      <stop offset="50%" stop-color="#A80018"/>
+      <stop offset="100%" stop-color="#4A000A"/>
+    </linearGradient>
+
+    <!-- Gold Accent -->
+    <linearGradient id="goldAcc" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FFE57F"/>
+      <stop offset="100%" stop-color="#FF9100"/>
+    </linearGradient>
+
+    <filter id="cardGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="b1"/>
+      <feMerge>
+        <feMergeNode in="b1"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <style>
+    @keyframes sweepLine {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    @keyframes blipBlink {
+      0%, 100% { opacity: 0.3; transform: scale(0.8); }
+      50% { opacity: 1; transform: scale(1.3); }
+    }
+    @keyframes alertStrobe {
+      0%, 100% { fill: #12040D; }
+      50% { fill: #3A000C; }
+    }
+    @keyframes irisSquint {
+      0%, 40%, 60%, 100% { transform: scaleY(1); }
+      50% { transform: scaleY(0.2); }
+    }
+    @keyframes laserAim {
+      0% { transform: translate(0, 0); }
+      25% { transform: translate(12px, -8px); }
+      50% { transform: translate(-10px, 10px); }
+      75% { transform: translate(8px, 6px); }
+      100% { transform: translate(0, 0); }
+    }
+    @keyframes clockTick {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+    @keyframes graphScroll {
+      0% { stroke-dashoffset: 0; }
+      100% { stroke-dashoffset: 60; }
+    }
+
+    .radar-rot { animation: sweepLine 3.5s linear infinite; transform-origin: 55px 55px; }
+    .blip-pulse { animation: blipBlink 1.4s ease-in-out infinite; transform-origin: 65px 42px; }
+    .crash-strobe { animation: alertStrobe 1.2s ease-in-out infinite; }
+    .lens-motion { animation: irisSquint 3.8s ease-in-out infinite; transform-origin: 55px 52px; }
+    .crosshair-move { animation: laserAim 4s ease-in-out infinite; transform-origin: 55px 55px; }
+    .colon-blink { animation: clockTick 1s steps(1) infinite; }
+    .live-wave { stroke-dasharray: 6 3; animation: graphScroll 1.5s linear infinite; }
+
+    .hud-title {
+      font-family: 'Segoe UI', -apple-system, sans-serif;
+      font-weight: 900;
+      letter-spacing: 1px;
+    }
+    .hud-desc {
+      font-family: 'Segoe UI', -apple-system, sans-serif;
+      font-size: 12.5px;
+      fill: #C5D5E8;
+    }
+    .badge-sub {
+      font-family: 'SF Mono', Monaco, Consolas, monospace;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+    }
+  </style>
+
+  <!-- Background Base Canvas -->
+  <rect width="980" height="580" rx="16" fill="#060108" stroke="#1A040E" stroke-width="2"/>
+
+  <!-- Section Top Banner Header -->
+  <g transform="translate(20, 20)">
+    <rect width="940" height="38" rx="8" fill="url(#secHeadGrad)"/>
+    <text x="18" y="25" font-family="'Segoe UI', sans-serif" font-size="14.5" font-weight="900" fill="#FFFFFF" letter-spacing="3">
+      ⚡ TACTICAL SUIT MODES // 7 EMBEDDED SYSTEMS
+    </text>
+    <rect x="755" y="7" width="170" height="24" rx="5" fill="#200008" stroke="#FFE57F" stroke-width="1"/>
+    <text x="768" y="23" font-family="monospace" font-size="11.5" font-weight="800" fill="#FFE57F">
+      SYSTEM STATUS: ARMED
+    </text>
+  </g>
+
+  <!-- ============================================================== -->
+  <!-- ROW 1 (Cards 1, 2, 3)                                          -->
+  <!-- ============================================================== -->
+
+  <!-- CARD 1: SPIDER-TRACER (X: 20, Y: 75) -->
+  <g transform="translate(20, 75)">
+    <rect width="300" height="150" rx="10" fill="url(#cardBg)" stroke="#FF1E38" stroke-width="1.4"/>
+    <!-- Header -->
+    <rect x="0" y="0" width="300" height="30" rx="9" fill="#24000C" stroke="#FF1E38" stroke-width="0.8"/>
+    <text x="12" y="20" font-size="12" fill="#FF1E38" class="hud-title">01 // 🕷️ SPIDER-TRACER</text>
+    <rect x="185" y="5" width="105" height="20" rx="4" fill="#001824" stroke="#00F0FF" stroke-width="1"/>
+    <text x="194" y="19" class="badge-sub" fill="#00F0FF">BEARING: 042°</text>
+
+    <!-- Radar Graphic -->
+    <g transform="translate(10, 36)">
+      <circle cx="55" cy="52" r="40" fill="#050106" stroke="#33000C" stroke-width="1.5"/>
+      <circle cx="55" cy="52" r="26" fill="none" stroke="#33000C" stroke-width="1"/>
+      <circle cx="55" cy="52" r="13" fill="none" stroke="#33000C" stroke-width="1"/>
+      <line x1="15" y1="52" x2="95" y2="52" stroke="#33000C" stroke-width="1"/>
+      <line x1="55" y1="12" x2="55" y2="92" stroke="#33000C" stroke-width="1"/>
+      
+      <!-- Sweep Line -->
+      <g class="radar-rot">
+        <line x1="55" y1="52" x2="95" y2="52" stroke="#FF1E38" stroke-width="2"/>
+      </g>
+      <!-- Target Blip -->
+      <circle cx="65" cy="40" r="4.5" fill="#FFE57F" class="blip-pulse" filter="url(#cardGlow)"/>
+      <rect x="60" y="35" width="10" height="10" fill="none" stroke="#FF1E38" stroke-width="1"/>
+      <circle cx="55" cy="52" r="2.5" fill="#00F0FF"/>
+    </g>
+
+    <!-- Right Info -->
+    <g transform="translate(125, 45)">
+      <text x="0" y="8" font-size="13" font-weight="800" fill="#FFFFFF">Movie Gadget Locator</text>
+      <text x="0" y="27" class="hud-desc">Rotate ESP32 to steer</text>
+      <text x="0" y="43" class="hud-desc">toward target bearing.</text>
+      <rect x="0" y="52" width="165" height="20" rx="4" fill="#1C0008" stroke="#FF1E38" stroke-width="1"/>
+      <text x="8" y="66" font-family="monospace" font-size="10.5" font-weight="700" fill="#FFE57F">LOCK: [ VULTURE ] 142m</text>
+    </g>
+  </g>
+
+  <!-- CARD 2: MOTION RADAR (X: 340, Y: 75) -->
+  <g transform="translate(340, 75)">
+    <rect width="300" height="150" rx="10" fill="url(#cardBg)" stroke="#FF1E38" stroke-width="1.4"/>
+    <rect x="0" y="0" width="300" height="30" rx="9" fill="#24000C" stroke="#FF1E38" stroke-width="0.8"/>
+    <text x="12" y="20" font-size="12" fill="#FF1E38" class="hud-title">02 // 🎯 MOTION RADAR</text>
+    <rect x="180" y="5" width="110" height="20" rx="4" fill="#201400" stroke="#FFE57F" stroke-width="1"/>
+    <text x="190" y="19" class="badge-sub" fill="#FFE57F">6-DOF // 100Hz</text>
+
+    <!-- Web Radar Graphic -->
+    <g transform="translate(10, 36)">
+      <polygon points="55,15 88,27 95,55 88,83 55,95 22,83 15,55 22,27" fill="#050106" stroke="#FF1E38" stroke-width="1" opacity="0.6"/>
+      <polygon points="55,30 75,38 80,55 75,72 55,80 35,72 30,55 35,38" fill="none" stroke="#33000C" stroke-width="1"/>
+      <line x1="55" y1="55" x2="78" y2="35" stroke="#FF1E38" stroke-width="2.5"/>
+      <circle cx="78" cy="35" r="4.5" fill="#00F0FF" filter="url(#cardGlow)"/>
+      <circle cx="55" cy="55" r="2.5" fill="#FFE57F"/>
+    </g>
+
+    <!-- Right Info -->
+    <g transform="translate(125, 45)">
+      <text x="0" y="8" font-size="13" font-weight="800" fill="#FFFFFF">6-DOF Attitude Web</text>
+      <text x="0" y="27" class="hud-desc">Tracks pitch, roll &amp; tilt</text>
+      <text x="0" y="43" class="hud-desc">with dual PWM LED glow.</text>
+      <rect x="0" y="52" width="165" height="20" rx="4" fill="#001824" stroke="#00F0FF" stroke-width="1"/>
+      <text x="8" y="66" font-family="monospace" font-size="10.5" font-weight="700" fill="#00F0FF">aX:+1.2 aY:-0.8 G:1.0</text>
+    </g>
+  </g>
+
+  <!-- CARD 3: CRASH SENSOR (X: 660, Y: 75) -->
+  <g transform="translate(660, 75)">
+    <rect width="300" height="150" rx="10" class="crash-strobe" stroke="#FF1E38" stroke-width="1.4"/>
+    <rect x="0" y="0" width="300" height="30" rx="9" fill="#24000C" stroke="#FF1E38" stroke-width="0.8"/>
+    <text x="12" y="20" font-size="12" fill="#FF1E38" class="hud-title">03 // 💥 CRASH SENSOR</text>
+    <rect x="200" y="5" width="90" height="20" rx="4" fill="#300008" stroke="#FF1E38" stroke-width="1"/>
+    <text x="212" y="19" class="badge-sub" fill="#FF4D66">TRIG: 15G</text>
+
+    <!-- Strain Wave Graphic -->
+    <g transform="translate(10, 36)">
+      <rect width="105" height="90" fill="#080104" rx="6" stroke="#44000C" stroke-width="1"/>
+      <path d="M 5,65 L 25,65 L 35,22 L 45,80 L 55,32 L 65,70 L 75,58 L 100,65" fill="none" stroke="#FF1E38" stroke-width="2" class="live-wave"/>
+      <line x1="5" y1="26" x2="100" y2="26" stroke="#FFE57F" stroke-width="1" stroke-dasharray="3 2"/>
+      <text x="50" y="21" font-family="monospace" font-size="9" font-weight="700" fill="#FFE57F">15G PEAK</text>
+    </g>
+
+    <!-- Right Info -->
+    <g transform="translate(128, 45)">
+      <text x="0" y="8" font-size="13" font-weight="800" fill="#FFFFFF">High-G Impact Meter</text>
+      <text x="0" y="27" class="hud-desc">Logs 4-event history</text>
+      <text x="0" y="43" class="hud-desc">with full-screen alert!</text>
+      <rect x="0" y="52" width="162" height="20" rx="4" fill="#28000A" stroke="#FF1E38" stroke-width="1"/>
+      <text x="6" y="66" font-family="monospace" font-size="10.5" font-weight="700" fill="#FF4D66">IMPACT: 18.4G [LOGGED]</text>
+    </g>
+  </g>
+
+  <!-- ============================================================== -->
+  <!-- ROW 2 (Cards 4, 5, 6)                                          -->
+  <!-- ============================================================== -->
+
+  <!-- CARD 4: SPIDER-SENSE (X: 20, Y: 240) -->
+  <g transform="translate(20, 240)">
+    <rect width="300" height="150" rx="10" fill="url(#cardBg)" stroke="#FFE57F" stroke-width="1.4"/>
+    <rect x="0" y="0" width="300" height="30" rx="9" fill="#281A00" stroke="#FFE57F" stroke-width="0.8"/>
+    <text x="12" y="20" font-size="12" fill="#FFE57F" class="hud-title">04 // ⚡ SPIDER-SENSE</text>
+    <rect x="195" y="5" width="95" height="20" rx="4" fill="#1C1400" stroke="#FFE57F" stroke-width="1"/>
+    <text x="206" y="19" class="badge-sub" fill="#FFE57F">IRIS: AUTO</text>
+
+    <!-- Mask Eye Graphic -->
+    <g transform="translate(10, 36)">
+      <rect width="105" height="90" fill="#080104" rx="6" stroke="#443200" stroke-width="1"/>
+      <g class="lens-motion" filter="url(#cardGlow)">
+        <path d="M 52,28 Q 78,35 88,58 Q 63,78 52,73 Q 27,68 17,58 Q 27,35 52,28 Z" fill="#080208" stroke="#FFE57F" stroke-width="2"/>
+        <path d="M 52,33 Q 73,39 81,58 Q 61,71 52,68 Q 32,65 24,58 Q 32,39 52,33 Z" fill="#FFFFFF"/>
+      </g>
+      <text x="18" y="85" font-family="monospace" font-size="9" font-weight="700" fill="#FFE57F">! THREAT ALERT !</text>
+    </g>
+
+    <!-- Right Info -->
+    <g transform="translate(128, 45)">
+      <text x="0" y="8" font-size="13" font-weight="800" fill="#FFFFFF">Threat Perception HUD</text>
+      <text x="0" y="27" class="hud-desc">Senses subtle vibrations</text>
+      <text x="0" y="43" class="hud-desc">and acceleration spikes.</text>
+      <rect x="0" y="52" width="162" height="20" rx="4" fill="#1E1800" stroke="#FFE57F" stroke-width="1"/>
+      <text x="6" y="66" font-family="monospace" font-size="10.5" font-weight="700" fill="#FFE57F">DELTA: +4.2G // OK</text>
+    </g>
+  </g>
+
+  <!-- CARD 5: MARVEL CINEMA (X: 340, Y: 240) -->
+  <g transform="translate(340, 240)">
+    <rect width="300" height="150" rx="10" fill="url(#cardBg)" stroke="#00F0FF" stroke-width="1.4"/>
+    <rect x="0" y="0" width="300" height="30" rx="9" fill="#001C2B" stroke="#00F0FF" stroke-width="0.8"/>
+    <text x="12" y="20" font-size="12" fill="#00F0FF" class="hud-title">05 // 🎬 MARVEL CINEMA</text>
+    <rect x="185" y="5" width="105" height="20" rx="4" fill="#002418" stroke="#00FF66" stroke-width="1"/>
+    <text x="194" y="19" class="badge-sub" fill="#00FF66">NTP: SYNCED</text>
+
+    <!-- Clock / Countdown Graphic -->
+    <g transform="translate(10, 36)">
+      <rect width="105" height="90" fill="#020812" rx="6" stroke="#00445C" stroke-width="1"/>
+      <text x="12" y="24" font-family="'Segoe UI', sans-serif" font-size="10.5" font-weight="800" fill="#FF1E38">DOOMSDAY</text>
+      <text x="12" y="48" font-family="monospace" font-size="16" font-weight="900" fill="#FFFFFF">488</text>
+      <text x="50" y="48" font-family="monospace" font-size="10" font-weight="700" fill="#FFE57F">DAYS</text>
+      <g font-family="monospace" font-size="11" font-weight="700" fill="#00F0FF">
+        <text x="12" y="72">14<tspan class="colon-blink">:</tspan>32<tspan class="colon-blink">:</tspan>08</text>
+      </g>
+    </g>
+
+    <!-- Right Info -->
+    <g transform="translate(128, 45)">
+      <text x="0" y="8" font-size="13" font-weight="800" fill="#FFFFFF">WiFi Atomic Timeline</text>
+      <text x="0" y="27" class="hud-desc">Syncs with global NTP.</text>
+      <text x="0" y="43" class="hud-desc">Live MCU countdowns!</text>
+      <rect x="0" y="52" width="162" height="20" rx="4" fill="#001C2B" stroke="#00F0FF" stroke-width="1"/>
+      <text x="6" y="66" font-family="monospace" font-size="10.5" font-weight="700" fill="#00F0FF">DOOMSDAY: 18 DEC 2026</text>
+    </g>
+  </g>
+
+  <!-- CARD 6: WEB TARGETING (X: 660, Y: 240) -->
+  <g transform="translate(660, 240)">
+    <rect width="300" height="150" rx="10" fill="url(#cardBg)" stroke="#00FF66" stroke-width="1.4"/>
+    <rect x="0" y="0" width="300" height="30" rx="9" fill="#002612" stroke="#00FF66" stroke-width="0.8"/>
+    <text x="12" y="20" font-size="12" fill="#00FF66" class="hud-title">06 // 🎮 WEB TARGETING</text>
+    <rect x="195" y="5" width="95" height="20" rx="4" fill="#201C00" stroke="#FFE57F" stroke-width="1"/>
+    <text x="206" y="19" class="badge-sub" fill="#FFE57F">COMBO: x3</text>
+
+    <!-- Laser Arena Graphic -->
+    <g transform="translate(10, 36)">
+      <rect width="105" height="90" fill="#020E06" rx="6" stroke="#00441E" stroke-width="1"/>
+      <g class="crosshair-move">
+        <circle cx="52" cy="48" r="16" fill="none" stroke="#00FF66" stroke-width="1.5"/>
+        <line x1="32" y1="48" x2="72" y2="48" stroke="#00FF66" stroke-width="1.5"/>
+        <line x1="52" y1="28" x2="52" y2="68" stroke="#00FF66" stroke-width="1.5"/>
+        <circle cx="52" cy="48" r="2.5" fill="#FF1E38"/>
+      </g>
+      <circle cx="72" cy="32" r="5.5" fill="#FF1E38" opacity="0.85"/>
+      <line x1="52" y1="88" x2="52" y2="48" stroke="#FFFFFF" stroke-width="1.5" stroke-dasharray="4 2"/>
+    </g>
+
+    <!-- Right Info -->
+    <g transform="translate(128, 45)">
+      <text x="0" y="8" font-size="13" font-weight="800" fill="#FFFFFF">Tilt-Aimed Shooter</text>
+      <text x="0" y="27" class="hud-desc">Tilt board to steer laser,</text>
+      <text x="0" y="43" class="hud-desc">tap SELECT to fire webs!</text>
+      <rect x="0" y="52" width="162" height="20" rx="4" fill="#002612" stroke="#00FF66" stroke-width="1"/>
+      <text x="6" y="66" font-family="monospace" font-size="10.5" font-weight="700" fill="#00FF66">SCORE: 1,450 [x3 MULTI]</text>
+    </g>
+  </g>
+
+  <!-- ============================================================== -->
+  <!-- ROW 3 (Card 7: S.H.I.E.L.D. System Widecard)                   -->
+  <!-- ============================================================== -->
+  <g transform="translate(20, 405)">
+    <rect width="940" height="155" rx="10" fill="url(#cardBg)" stroke="#00F0FF" stroke-width="1.4"/>
+    <rect x="0" y="0" width="940" height="32" rx="9" fill="#001824" stroke="#00F0FF" stroke-width="0.8"/>
+    <text x="18" y="21" font-size="12.5" fill="#00F0FF" class="hud-title">07 // 📊 S.H.I.E.L.D. SYSTEM DIAGNOSTICS &amp; TELEMETRY TERMINAL</text>
+    
+    <!-- Large, High-Legibility BUS Protocol Tag -->
+    <rect x="670" y="5" width="255" height="22" rx="5" fill="#002436" stroke="#FFE57F" stroke-width="1.2"/>
+    <text x="682" y="20" class="badge-sub" font-size="11.5" fill="#FFE57F">BUS: I2C (100kHz) + SPI (27MHz)</text>
+
+    <!-- Telemetry Column 1: IMU Live Wave -->
+    <g transform="translate(18, 42)">
+      <rect width="280" height="100" fill="#020812" rx="6" stroke="#00384C" stroke-width="1"/>
+      <text x="12" y="20" font-family="monospace" font-size="11.5" font-weight="800" fill="#00F0FF">IMU ATTITUDE WAVEFORM</text>
+      <path d="M 12,56 Q 45,30 80,56 T 150,56 T 215,56 T 270,56" fill="none" stroke="#FF1E38" stroke-width="2" class="live-wave"/>
+      <path d="M 12,70 Q 45,82 80,70 T 150,70 T 215,70 T 270,70" fill="none" stroke="#00F0FF" stroke-width="1.8" class="live-wave"/>
+      <text x="12" y="92" font-family="monospace" font-size="10" font-weight="700" fill="#FFE57F">X: +0.42g  Y: -0.15g  Z: +0.98g</text>
+    </g>
+
+    <!-- Telemetry Column 2: System Specs -->
+    <g transform="translate(315, 42)">
+      <rect width="300" height="100" fill="#020812" rx="6" stroke="#00384C" stroke-width="1"/>
+      <text x="12" y="20" font-family="monospace" font-size="11.5" font-weight="800" fill="#FFE57F">ESP32 CORE TELEMETRY</text>
+      <text x="12" y="42" font-family="monospace" font-size="11" fill="#FFFFFF">• CPU: Dual-Core Xtensa @ 240MHz</text>
+      <text x="12" y="60" font-family="monospace" font-size="11" fill="#FFFFFF">• FREE HEAP: 281,344 BYTES (86%)</text>
+      <text x="12" y="78" font-family="monospace" font-size="11" fill="#FFFFFF">• CHIP IDENT: MPU6050 (0x68 OK)</text>
+      <text x="12" y="94" font-family="monospace" font-size="10.5" font-weight="700" fill="#00FF66">• STATUS: ALL SUBSYSTEMS NOMINAL</text>
+    </g>
+
+    <!-- Telemetry Column 3: Quick Navigation -->
+    <g transform="translate(630, 42)">
+      <rect width="292" height="100" fill="#020812" rx="6" stroke="#00384C" stroke-width="1"/>
+      <text x="12" y="20" font-family="monospace" font-size="11.5" font-weight="800" fill="#FF4D66">TACTICAL CONTROLS GUIDE</text>
+      <text x="12" y="42" font-family="monospace" font-size="11" fill="#FFFFFF">• ▲ UP / ▼ DOWN: Navigate Modes</text>
+      <text x="12" y="60" font-family="monospace" font-size="11" fill="#FFFFFF">• ● SELECT: Enter / Fire / Ping</text>
+      <text x="12" y="78" font-family="monospace" font-size="11" font-weight="700" fill="#FFE57F">• ● HOLD SELECT (1.2s): Escape</text>
+      <text x="12" y="94" font-family="monospace" font-size="10.5" fill="#00F0FF">• AUTO-RECOVERY DEBOUNCE: 50ms</text>
+    </g>
+  </g>
+</svg>

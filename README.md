@@ -12,7 +12,7 @@
 ---
 
 <p align="center">
-  <img src="assets/spidey_modes_showcase.svg" width="100%" alt="Tactical Modes Interactive Showcase"/>
+  <img src="assets/spidey_modes_gallery.svg" width="100%" alt="Tactical Modes Interactive Showcase"/>
 </p>
 
 ---
