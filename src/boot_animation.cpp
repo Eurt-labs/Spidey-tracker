@@ -55,8 +55,8 @@ static void drawCyberWebMatrix(Adafruit_ST7735 &tft) {
     // Header telemetry
     tft.setTextColor(SPIDEY_CYAN);
     tft.setTextSize(1);
-    tft.setCursor(24, 5);
-    tft.print("SPIDER-OS 4.2");
+    tft.setCursor(22, 5);
+    tft.print("SPIDER TRACKER");
 
     // Breathing LED pulse
     ledcWrite(LED_BLUE_CH, 40);
