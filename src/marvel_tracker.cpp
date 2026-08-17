@@ -1,7 +1,7 @@
 /*
  * ================================================================
  *  🕷️ SPIDEY TRACKER — Marvel Cinema Tracker (Portrait 128x160)
- *  Accurate NTP-Synced Real-Time Movie Release Countdown Engine
+ *  Accurate NTP-Synced Real-Time Movie Release & Post-Release Tracker
  * ================================================================
  */
 
@@ -16,7 +16,7 @@
 struct MarvelMovie {
     const char *title;
     const char *subtitle;
-    const char *releaseDateStr; // Formatted date e.g. "24 JUL 2026"
+    const char *releaseDateStr;
     int year;
     int month;
     int day;
@@ -24,6 +24,7 @@ struct MarvelMovie {
     uint16_t accentColor;
 };
 
+// Accurate timeline with upcoming blockbusters & released milestones
 static const MarvelMovie movies[MOVIE_COUNT] = {
     {
         "SPIDER-MAN",
@@ -36,18 +37,26 @@ static const MarvelMovie movies[MOVIE_COUNT] = {
     {
         "AVENGERS",
         "Doomsday",
-        "01 MAY 2026",
-        2026, 5, 1,
+        "18 DEC 2026",
+        2026, 12, 18,
         SPIDEY_GOLD,
         SPIDEY_NEON_RED
     },
     {
         "AVENGERS",
         "Secret Wars",
-        "07 MAY 2027",
-        2027, 5, 7,
+        "17 DEC 2027",
+        2027, 12, 17,
         SPIDEY_GOLD,
         SPIDEY_CRIMSON
+    },
+    {
+        "SPIDER-VERSE",
+        "Beyond Spider-Verse",
+        "25 JUN 2027",
+        2027, 6, 25,
+        SPIDEY_NEON_BLUE,
+        SPIDEY_GOLD
     },
     {
         "FANTASTIC 4",
@@ -58,20 +67,12 @@ static const MarvelMovie movies[MOVIE_COUNT] = {
         SPIDEY_WHITE
     },
     {
-        "SPIDER-VERSE",
-        "Beyond Spider-Verse",
-        "26 MAR 2027",
-        2027, 3, 26,
-        SPIDEY_NEON_BLUE,
+        "SPIDER-MAN",
+        "No Way Home",
+        "17 DEC 2021",
+        2021, 12, 17,
+        SPIDEY_NEON_RED,
         SPIDEY_GOLD
-    },
-    {
-        "BLADE",
-        "The Daywalker",
-        "06 NOV 2026",
-        2026, 11, 6,
-        SPIDEY_ALERT,
-        SPIDEY_WEB
     }
 };
 
@@ -93,6 +94,9 @@ static time_t getMovieEpoch(const MarvelMovie &m) {
 
 static void drawMovieCard(Adafruit_ST7735 &tft, int idx) {
     const MarvelMovie &m = movies[idx];
+    time_t targetEpoch = getMovieEpoch(m);
+    time_t now = time(nullptr);
+    bool isReleased = (now > 1000000 && now >= targetEpoch);
 
     tft.fillScreen(SPIDEY_BLACK);
 
@@ -144,14 +148,18 @@ static void drawMovieCard(Adafruit_ST7735 &tft, int idx) {
     tft.fillRect(SCREEN_W / 2 - 11, 60, 22, 22, SPIDEY_DARK);
     tft.drawBitmap(SCREEN_W / 2 - 8, 63, menuIcons[3], 16, 16, m.themeColor);
 
-    // Countdown Box frame (Y: 86 to 140)
+    // Countdown / Elapsed Box frame (Y: 86 to 140)
     int boxY = 86;
     tft.drawRect(4, boxY, SCREEN_W - 8, 52, SPIDEY_HUD_FRAME);
     tft.fillRect(5, boxY + 1, SCREEN_W - 10, 50, SPIDEY_DARK);
 
-    // Network Sync Status Tag
+    // Network Sync / Mode Tag
     tft.setTextSize(1);
-    if (sysStatus.timeSynced) {
+    if (isReleased) {
+        tft.setTextColor(SPIDEY_GREEN);
+        tft.setCursor(10, boxY + 4);
+        tft.print("[MOVIE RELEASED]");
+    } else if (sysStatus.timeSynced) {
         tft.setTextColor(SPIDEY_CYAN);
         tft.setCursor(10, boxY + 4);
         tft.print("[NTP SYNCED]");
@@ -182,25 +190,26 @@ static void drawCountdown(Adafruit_ST7735 &tft, int idx) {
     time_t targetEpoch = getMovieEpoch(m);
     time_t now = time(nullptr);
 
-    unsigned long remainSec = 0;
     bool isPast = false;
+    unsigned long diffSec = 0;
 
     if (now > 1000000) { // Valid NTP time
-        if (targetEpoch > now) {
-            remainSec = (unsigned long)(targetEpoch - now);
-        } else {
+        if (now >= targetEpoch) {
             isPast = true;
-            remainSec = 0;
+            diffSec = (unsigned long)(now - targetEpoch);
+        } else {
+            isPast = false;
+            diffSec = (unsigned long)(targetEpoch - now);
         }
     } else {
-        // Fallback before NTP lock (estimated from compile date)
-        remainSec = 86400UL * 120 + 3600UL * 14;
+        // Fallback before NTP lock (estimated from 2026 reference)
+        diffSec = 86400UL * 120 + 3600UL * 14;
     }
 
-    unsigned long days = remainSec / 86400;
-    unsigned long hours = (remainSec % 86400) / 3600;
-    unsigned long mins = (remainSec % 3600) / 60;
-    unsigned long secs = remainSec % 60;
+    unsigned long days = diffSec / 86400;
+    unsigned long hours = (diffSec % 86400) / 3600;
+    unsigned long mins = (diffSec % 3600) / 60;
+    unsigned long secs = diffSec % 60;
 
     int boxY = 86;
 
@@ -208,24 +217,40 @@ static void drawCountdown(Adafruit_ST7735 &tft, int idx) {
     tft.fillRect(8, boxY + 16, SCREEN_W - 16, 32, SPIDEY_DARK);
 
     if (isPast) {
+        // MOVIE IS ALREADY RELEASED: Show "DAYS GONE SINCE RELEASE"
+        char dayBuf[24];
+        snprintf(dayBuf, sizeof(dayBuf), "+%lu DAYS AGO", days);
+        int dayW = strlen(dayBuf) * 6;
         tft.setTextColor(SPIDEY_GREEN);
         tft.setTextSize(1);
-        tft.setCursor(24, boxY + 20);
-        tft.print("NOW IN THEATERS!");
+        tft.setCursor((SCREEN_W - dayW) / 2, boxY + 18);
+        tft.print(dayBuf);
+
+        // Elapsed HH:MM:SS clock
+        char timeBuf[24];
+        snprintf(timeBuf, sizeof(timeBuf), "+%02lu:%02lu:%02lu", hours, mins, secs);
+        int timeW = strlen(timeBuf) * 6;
         tft.setTextColor(SPIDEY_GOLD);
-        tft.setCursor(28, boxY + 32);
-        tft.print("RELEASED!");
+        tft.setCursor((SCREEN_W - timeW) / 2, boxY + 32);
+        tft.print(timeBuf);
+
+        // Blinking indicator dot
+        if (secs % 2 == 0) {
+            tft.fillCircle(SCREEN_W - 14, boxY + 35, 2, SPIDEY_GREEN);
+        } else {
+            tft.fillCircle(SCREEN_W - 14, boxY + 35, 2, SPIDEY_DARK);
+        }
     } else {
-        // Large DAYS display
+        // UPCOMING MOVIE: Show "DAYS UNTIL RELEASE"
         char dayBuf[20];
-        snprintf(dayBuf, sizeof(dayBuf), "%lu DAYS", days);
+        snprintf(dayBuf, sizeof(dayBuf), "%lu DAYS LEFT", days);
         int dayW = strlen(dayBuf) * 6;
         tft.setTextColor(m.themeColor);
         tft.setTextSize(1);
         tft.setCursor((SCREEN_W - dayW) / 2, boxY + 18);
         tft.print(dayBuf);
 
-        // Live HH:MM:SS clock
+        // Live HH:MM:SS countdown clock
         char timeBuf[24];
         snprintf(timeBuf, sizeof(timeBuf), "%02lu:%02lu:%02lu", hours, mins, secs);
         int timeW = strlen(timeBuf) * 6;
