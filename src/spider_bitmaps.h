@@ -199,10 +199,31 @@ static const uint8_t PROGMEM icon_stats[] = {
     0x00, 0x00   // ................
 };
 
+// Icon 0: Spider-Tracer (Movie Target Locator Beacon)
+static const uint8_t PROGMEM icon_tracer[] = {
+    0x03, 0xC0,  // ......XXXX......
+    0x0C, 0x30,  // ....XX....XX....
+    0x19, 0x98,  // ...XX..XX..XX...
+    0x31, 0x8C,  // ..XX...XX...XX..
+    0x67, 0xE6,  // .XX..XXXXXX..XX.
+    0x4F, 0xF2,  // .X..XXXXXXXX..X.
+    0x9B, 0xD9,  // X..XX.XXXX.XX..X
+    0x91, 0x89,  // X..X...XX...X..X
+    0x91, 0x89,  // X..X...XX...X..X
+    0x9B, 0xD9,  // X..XX.XXXX.XX..X
+    0x4F, 0xF2,  // .X..XXXXXXXX..X.
+    0x67, 0xE6,  // .XX..XXXXXX..XX.
+    0x31, 0x8C,  // ..XX...XX...XX..
+    0x19, 0x98,  // ...XX..XX..XX...
+    0x0C, 0x30,  // ....XX....XX....
+    0x03, 0xC0   // ......XXXX......
+};
+
 // ================================================================
 //  MENU ITEM LABELS
 // ================================================================
 static const char* const menuLabels[] = {
+    "SPIDER-TRACER",
     "MOTION RADAR",
     "CRASH SENSOR",
     "SPIDER-SENSE",
@@ -212,6 +233,7 @@ static const char* const menuLabels[] = {
 };
 
 static const uint8_t* const menuIcons[] = {
+    icon_tracer,
     icon_motion,
     icon_crash,
     icon_sense,

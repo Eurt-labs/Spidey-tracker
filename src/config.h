@@ -118,6 +118,7 @@
 enum AppState {
     STATE_BOOT,
     STATE_MENU,
+    STATE_SPIDEY_TRACER,    // Movie Spider-Tracer Gadget Simulator
     STATE_MOTION_TRACKER,
     STATE_CRASH_DETECTOR,
     STATE_SPIDER_SENSE,
@@ -168,7 +169,7 @@ extern SystemStatus sysStatus;
 // ================================================================
 //  MENU CONFIGURATION (PORTRAIT 128x160)
 // ================================================================
-#define MENU_ITEM_COUNT   6
+#define MENU_ITEM_COUNT   7
 #define MENU_ITEM_HEIGHT  20
 #define MENU_VISIBLE      5
 #define MENU_TOP_BAR      20
